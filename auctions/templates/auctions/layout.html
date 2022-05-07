@@ -10,7 +10,7 @@
 <body>
     <header class="container">
         <div class="row d-flex align-items-center">
-            <div class="col d-flex flex-direction-row">
+            <div class="col col-sm-10 d-flex flex-direction-row">
                 <h1>Auctions</h1>
                 <ul class="nav align-items-center">
                     <li class="nav-item">
@@ -25,6 +25,9 @@
                         {% endfor %}
                     </li>
                     {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Create Listing</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
                     </li>

@@ -1,0 +1,17 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+<div class="container form-box create text-center">
+
+    <h2>🪅<br>Create my listing</h2>
+    <p class="text-muted mb-10">Fill all the informations to sell your item</p>
+
+    {% if message %}
+    <div>{{ message }}</div>
+    {% endif %}
+
+
+</div>
+
+{% endblock %}

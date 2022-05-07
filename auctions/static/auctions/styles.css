@@ -45,12 +45,22 @@ h1, p{
     max-width : 400px;
 }
 
-.form-group, .btn{
+.form{
+    margin : auto;
+}
+
+.btn{
     margin: 10px auto;
 }
 
-.form-group{
-    width: 60%;
+.form-control{
+    max-width: 80%;
+    margin : 20px auto;
+}
+
+.form-control.create{
+    max-width: 100%;
+    margin : 0px auto;
 }
 
 .login.register.btn{
