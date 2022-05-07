@@ -1,0 +1,31 @@
+* {
+    box-sizing: border-box;
+}
+
+body{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color : black;
+}
+
+header{
+    padding : 20px 0;
+    margin-bottom: 20px;
+}
+
+header h1{
+    text-transform: uppercase;
+    letter-spacing: 0.2rem;
+    margin-right: 20px;
+}
+
+.nav a, .nav a:hover{
+    color : black
+}
+
+.nav a:hover{
+    text-decoration: overline;
+}
+
+h1, p{
+    margin-bottom: 0!important;
+}
