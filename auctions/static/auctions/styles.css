@@ -42,13 +42,27 @@ h1, p{
 }
 
 .form-group, .btn{
-    margin: 10px auto 10px;
+    margin: 10px auto;
 }
 
 .form-group{
     width: 60%;
 }
 
-.btn{
+.login.register.btn{
     width: 20%;
+}
+
+/***** CARDS *****/
+
+
+.card{
+    max-width : 400px;
+    border-radius: 10px;
+    margin-left : 0px;
+}
+
+.card-img-top{
+    max-width: 300px;
+    border-radius: 10px 10px 0 0;
 }
