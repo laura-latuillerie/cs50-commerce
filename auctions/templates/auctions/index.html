@@ -4,7 +4,7 @@
 <div class="container text-center">
     <h2>🛒 Browse Our Active Listings</h2>
     <hr/>
-    <div class="container p-0 d-flex flex-wrap justify-content-between">
+    <div class="container p-0  mt-5 d-flex flex-wrap justify-content-between">
         <div class="row">
         {% for listing in listings %}
             <div class="col card p-0">
@@ -13,10 +13,10 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ listing }}</h5>
                         
-                        <span class="badge bg-dark"><small>{{ listing.category }}</small></span>
+                        <span class="badge category bg-dark"><small>{{ listing.category }}</small></span>
                         <h5 class="card-text fs-2"><strong>{{ listing.starting_bid}}€</strong></h5>
                     </div>
-                    <a href="" class="mb-4">Show More +</a>
+                    <a href="" class="link-more">Show More +</a>
                     <div class="card-footer">
                         <small class="text-muted">
                         created by {{ listing.author }}</small>

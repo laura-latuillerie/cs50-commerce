@@ -24,12 +24,16 @@ header h1{
     color : black
 }
 
-.nav a:hover{
+.nav-item:hover{
     text-decoration: overline;
 }
 
 h1, p{
     margin-bottom: 0!important;
+}
+
+.dropdown-item{
+    text-decoration: none!important;
 }
 
 /***** FORM LOGIN *****/
@@ -65,4 +69,12 @@ h1, p{
 .card-img-top{
     max-width: 300px;
     border-radius: 10px 10px 0 0;
+}
+
+.badge.category{
+    margin : 10px 0;
+}
+
+.link-more{
+    margin : 0 0 20px;
 }
