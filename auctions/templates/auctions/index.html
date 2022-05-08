@@ -4,29 +4,31 @@
 <div class="container text-center">
     <h2>🛒 Browse Our Active Listings</h2>
     <hr/>
-    <div class="container p-0  mt-5 d-flex flex-wrap justify-content-between">
-        <div class="row">
+    <div class="container p-0  mt-5 flex-wrap">
+        <div class="row d-flex">
         {% for listing in listings %}
-            <div class="col card p-0">
-                <a href="" class="text-decoration-none text-dark">  
-                    <img class="card-img-top" src="{% if listing.image %}{{ listing.image }}{% else %}https://caer.univ-amu.fr/wp-content/uploads/default-placeholder.png{% endif %}" alt="Photo of {{ listing.title }}">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ listing }}</h5>
-                        
-                        <span class="badge category bg-dark"><small>{{ listing.category }}</small></span>
-                        <h5 class="card-text fs-2"><strong>{{ listing.starting_bid}}€</strong></h5>
-                    </div>
-                    <a href="" class="link-more">Show More +</a>
-                    <div class="card-footer">
-                        <small class="text-muted">
-                        created by {{ listing.author }}</small>
-                    </div>
-                </a>
+            <div class="col">
+                <div class="card p-n1">
+                    <a href="" class="text-decoration-none text-dark">  
+                        <img class="card-img-top" src="{% if listing.image %}{{ listing.image }}{% else %}https://caer.univ-amu.fr/wp-content/uploads/default-placeholder.png{% endif %}" alt="Photo of {{ listing.title }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ listing }}</h5>
+                            
+                            <span class="badge category bg-dark"><small>{{ listing.category }}</small></span>
+                            <h5 class="card-text fs-2"><strong>{{ listing.starting_bid|intcomma }}€</strong></h5>
+                        </div>
+                        <a href="" class="link-more">Show More +</a>
+                        <div class="card-footer">
+                            <small class="text-muted">
+                            created by {{ listing.author }}</small>
+                        </div>
+                    </a>
+                </div>
             </div>
-        </div>
         {% empty %}
-            No active listings
-        {% endfor %}
+        No active listings
+         {% endfor %}
+        </div>
         
     </div>
 </div>
