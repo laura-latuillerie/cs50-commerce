@@ -67,4 +67,19 @@ def register(request):
         return render(request, "auctions/register.html")
 
 
+def listing_page(request, listing_id):
+    listing = Listing.objects.get(id=listing_id)
+    active_listings = Listing.objects.filter(active=True)
+    if listing in active_listings:
+        content = {
+            "listing" : listing,
+            "active"  : "🟢 Active"
+        }
+    else:
+        
+        content = {
+            "listing" : listing,
+            "inactive"  : "🔴 Closed"
+        }
+    return render(request, "auctions/listing_page.html", content)
 

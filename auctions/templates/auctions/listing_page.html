@@ -1,0 +1,28 @@
+{% extends "auctions/layout.html" %}
+{% load humanize %}
+{% block title %}
+    {{ listing }}
+{% endblock %}
+{% block body %}
+<div class="container">
+    <h2 class="text-center">➕ Listing Informations</h2>
+    <hr/>
+    <div class="container mt-5">
+        <div class="row justify-content-center listing-box">
+            <div class="col col-xs-12 col-md-4 text-end">
+                <img class="listing-img" src="{% if listing.image %}{{ listing.image }}{% else %}https://caer.univ-amu.fr/wp-content/uploads/default-placeholder.png{% endif %}" alt="Photo of {{ listing.title }}">
+            </div>
+            <div class="col col-xs-12 col-md-4 text-start align-items-center"> 
+                <h3 class="=">{{ listing.title }} <span class="text-muted fs-7">{{active}}</span></h3>
+                <span class="badge category bg-dark"><small>{{ listing.category }}</small></span>
+                <h5 class="="><strong>Description</strong></h5>
+                <p>{{ listing.description }}</p>
+                <small class="text-muted">
+                    created by {{ listing.author }}</small>
+                <h5 class="card-text fs-2"><strong>{{ listing.starting_bid|intcomma }}€</strong></h5>
+                <a href="" class="btn btn-success">Bid</a>
+            </div>
+        </div>        
+    </div>
+</div>
+{% endblock %}

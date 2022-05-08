@@ -7,6 +7,10 @@ body{
     color : black;
 }
 
+.fs-7{
+    font-size: 0.8rem;
+}
+
 /***** HEADER *****/
 
 header{
@@ -68,23 +72,30 @@ h1, p{
     width: 20%;
 }
 
-/***** CARDS *****/
+/***** CARDS OF INDEX *****/
 
 .card{
     max-width : 400px;
-    border-radius: 10px;
     margin-left : 0px;
 }
 
 .card-img-top{
     max-width: 300px;
-    border-radius: 10px 10px 0 0;
+    padding : 10px
 }
 
 .badge.category{
-    margin : 10px 0;
+    background: linear-gradient(124deg,  orange, red, purple, #2b1de8);
+    text-transform: uppercase;
+    margin : 0 0 10px;
 }
 
 .link-more{
     margin : 0 0 20px;
+}
+
+/***** LISTING PAGE *****/
+
+.listing-img{
+    max-width: 100%;
 }

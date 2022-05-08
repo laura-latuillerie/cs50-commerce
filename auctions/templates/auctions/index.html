@@ -17,7 +17,7 @@
                             <span class="badge category bg-dark"><small>{{ listing.category }}</small></span>
                             <h5 class="card-text fs-2"><strong>{{ listing.starting_bid|intcomma }}€</strong></h5>
                         </div>
-                        <a href="" class="link-more">Show More +</a>
+                        <a href="{% url 'listing_page' listing.id %}" class="link-more">Show More +</a>
                         <div class="card-footer">
                             <small class="text-muted">
                             created by {{ listing.author }}</small>
