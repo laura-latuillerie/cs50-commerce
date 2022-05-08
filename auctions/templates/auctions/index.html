@@ -2,9 +2,17 @@
 {% load humanize %}
 {% block body %}
 <div class="container text-center">
-    <h2>🛒 Browse Our Active Listings</h2>
-    <hr/>
-    <div class="container p-0  mt-5 flex-wrap">
+    <div class="row banner d-flex justify-content-center align-items-center">
+            <div class="col col-xs-12">
+                <h2 class="fs-1 mt-5">Best cat products auctions website</h2>
+                <h3 class="fs-6">Put the highest bid to bring it back home</h3>
+                <a href="#active-listings" class="text-decoration-none d-block mt-1">Browse ></a>
+                <img src="https://videos.cults3d.com/4R1eF-zp-C288ytxNTE1QhmveQY=/https://files.cults3d.com/uploaders/17665595/illustration-file/5dd18e88-9f65-49f6-bbfe-50cad037b159/CAT.gif" alt="cat-3D-rotating-gif">
+            </div>
+    </div>
+    <h2 id="active-listings">🛒 Browse Our Active Listings</h2>
+    <hr class="mb-5"/>
+        
         <div class="row d-flex">
         {% for listing in listings %}
             <div class="col">

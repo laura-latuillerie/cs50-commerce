@@ -5,6 +5,7 @@
 body{
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     color : black;
+    background-color: #FBFBFF;
 }
 
 .fs-7{
@@ -14,7 +15,7 @@ body{
 /***** HEADER *****/
 
 header{
-    padding : 20px 0;
+    padding : 10px 0;
     margin-bottom: 20px;
 }
 
@@ -26,7 +27,7 @@ header h1{
 }
 
 .nav a, .nav a:hover{
-    color : black
+    color : white;
 }
 
 .nav-item:hover{
@@ -41,7 +42,13 @@ h1, p{
     text-decoration: none!important;
 }
 
-/***** FORM LOGIN *****/
+/***** BANNER *****/
+
+.banner{
+    padding-bottom: 100px;
+}
+
+/***** FORMS *****/
 
 .form-box{
     border: 1px solid lightgrey;
