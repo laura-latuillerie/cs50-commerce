@@ -8,6 +8,10 @@ body{
     background-color: #FBFBFF;
 }
 
+.bg-multi{
+    background: linear-gradient(124deg,  orange, red, purple, #2b1de8);
+}
+
 .fs-7{
     font-size: 0.8rem;
 }
@@ -16,7 +20,6 @@ body{
 
 header{
     padding : 10px 0;
-    margin-bottom: 20px;
 }
 
 header h1{
@@ -26,9 +29,10 @@ header h1{
     margin-right: 20px;
 }
 
-.nav a, .nav a:hover{
+.nav a, .nav a:hover, nav a:active{
     color : white;
 }
+
 
 .nav-item:hover{
     text-decoration: overline;
@@ -40,12 +44,22 @@ h1, p{
 
 .dropdown-item{
     text-decoration: none!important;
+    color : black!important;
 }
 
 /***** BANNER *****/
 
 .banner{
-    padding-bottom: 100px;
+    height: 90vh;
+}
+
+.banner-img{
+    height: 100%;
+    max-width: 100%;
+    background-image: url('https://i.ytimg.com/vi/cikbGOeSCQ4/maxresdefault.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
 }
 
 /***** FORMS *****/
@@ -92,7 +106,6 @@ h1, p{
 }
 
 .badge.category{
-    background: linear-gradient(124deg,  orange, red, purple, #2b1de8);
     text-transform: uppercase;
     margin : 0 0 10px;
 }
@@ -105,4 +118,11 @@ h1, p{
 
 .listing-img{
     max-width: 100%;
+}
+
+
+@media (min-width : 576px){
+    .banner-text{
+        padding-left : 60px;
+    }
 }

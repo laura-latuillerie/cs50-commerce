@@ -1,43 +1,51 @@
 {% extends "auctions/layout.html" %}
 {% load humanize %}
 {% block body %}
-<div class="container text-center">
-    <div class="row banner d-flex justify-content-center align-items-center">
-            <div class="col col-xs-12">
-                <h2 class="fs-1 mt-5">Best cat products auctions website</h2>
+<div class="container-fluid">
+    <div class="row banner justify-content-center align-items-center bg-multi">
+        <div class="col col-xs-12 col-md-6 text-start text-light d-flex-column justify-content-center banner-text">
+                <h2 class="fs-1">Best cat products auctions website</h2>
                 <h3 class="fs-6">Put the highest bid to bring it back home</h3>
-                <a href="#active-listings" class="text-decoration-none d-block mt-1">Browse ></a>
-                <img src="https://videos.cults3d.com/4R1eF-zp-C288ytxNTE1QhmveQY=/https://files.cults3d.com/uploaders/17665595/illustration-file/5dd18e88-9f65-49f6-bbfe-50cad037b159/CAT.gif" alt="cat-3D-rotating-gif">
+                <a href="#active-listings" class="btn btn-dark mt-4">Browse Active Listings</a> 
+                
             </div>
+        <div class="col col-xs-12 col-md-6 banner-img">
+        </div>
     </div>
-    <h2 id="active-listings">🛒 Browse Our Active Listings</h2>
+</div>
+
+<div class="container text-center my-5">
+    <h3 id="active-listings">🔥 Active Listings</h3>
     <hr class="mb-5"/>
-        
-        <div class="row d-flex">
+    
+    <div class="row d-flex">
         {% for listing in listings %}
-            <div class="col">
-                <div class="card p-n1">
-                    <a href="" class="text-decoration-none text-dark">  
-                        <img class="card-img-top" src="{% if listing.image %}{{ listing.image }}{% else %}https://caer.univ-amu.fr/wp-content/uploads/default-placeholder.png{% endif %}" alt="Photo of {{ listing.title }}">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ listing }}</h5>
-                            
-                            <span class="badge category bg-dark"><small>{{ listing.category }}</small></span>
-                            <h5 class="card-text fs-2"><strong>{{ listing.starting_bid|intcomma }}€</strong></h5>
-                        </div>
-                        <a href="{% url 'listing_page' listing.id %}" class="link-more">Show More +</a>
-                        <div class="card-footer">
-                            <small class="text-muted">
+        <div class="col">
+            <div class="card p-n1">
+                <a href="" class="text-decoration-none text-dark">  
+                    <img class="card-img-top" src="{% if listing.image %}{{ listing.image }}{% else %}https://caer.univ-amu.fr/wp-content/uploads/default-placeholder.png{% endif %}" alt="Photo of {{ listing.title }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ listing }}</h5>
+                        
+                        <span class="badge category bg-multi"><small>{{ listing.category }}</small></span>
+                        <h5 class="card-text fs-2"><strong>{{ listing.starting_bid|intcomma }}€</strong></h5>
+                    </div>
+                    <a href="{% url 'listing_page' listing.id %}" class="link-more">Show More +</a>
+                    <div class="card-footer">
+                        <small class="text-muted">
                             created by {{ listing.author }}</small>
                         </div>
                     </a>
                 </div>
             </div>
-        {% empty %}
-        No active listings
-         {% endfor %}
+            {% empty %}
+            No active listings
+            {% endfor %}
         </div>
-        
     </div>
+</div>    
+
+<div id="footer" class="bg-dark text-light text-center mt-5 p-2">
+    <p>Copyright - CAT AUCTIONS 2022</p>
 </div>
 {% endblock %}
