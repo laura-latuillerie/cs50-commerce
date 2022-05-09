@@ -12,6 +12,10 @@ body{
     background: linear-gradient(124deg,  orange, red, purple, #2b1de8);
 }
 
+.bg-light-g{
+    background-color: gainsboro;
+}
+
 .fs-7{
     font-size: 0.8rem;
 }
@@ -123,7 +127,7 @@ header h1{
     }
 
     .card-title{
-        font-size: 1.2rem;
+        font-size: 1.1rem;
     }
 
 
