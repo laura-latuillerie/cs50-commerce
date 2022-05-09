@@ -18,48 +18,29 @@ body{
 
 /***** HEADER *****/
 
-header{
-    padding : 10px 0;
-}
-
 header h1{
     font-size: 2rem;
-    text-transform: uppercase;
     letter-spacing: 0.2rem;
-    margin-right: 20px;
 }
 
 .nav a, .nav a:hover, nav a:active{
     color : white;
 }
 
-
-.nav-item:hover{
-    text-decoration: overline;
-}
-
-h1, p{
-    margin-bottom: 0!important;
-}
-
-.dropdown-item{
-    text-decoration: none!important;
-    color : black!important;
-}
-
 /***** BANNER *****/
 
 .banner{
-    height: 90vh;
+    height: 100vh;
+    text-align: center;
+}
+
+.banner-text{
+    padding : 200px 0;
 }
 
 .banner-img{
     height: 100%;
-    max-width: 100%;
-    background-image: url('https://i.ytimg.com/vi/cikbGOeSCQ4/maxresdefault.jpg');
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
+    display: none;
 }
 
 /***** FORMS *****/
@@ -96,13 +77,16 @@ h1, p{
 /***** CARDS OF INDEX *****/
 
 .card{
-    max-width : 400px;
-    margin-left : 0px;
+    max-width : 100%;
+    margin-top : 20px;
+}
+
+.card-title{
+    font-size: 0.8rem;
 }
 
 .card-img-top{
-    max-width: 300px;
-    padding : 10px
+    max-width: 100%!important;
 }
 
 .badge.category{
@@ -121,8 +105,26 @@ h1, p{
 }
 
 
-@media (min-width : 576px){
+@media (min-width : 768px){
+
     .banner-text{
-        padding-left : 60px;
+        text-align: left;
+        padding: 0  0 0 60px;
     }
+
+    .banner-img{
+        display: block;
+        height: 100%;
+        max-width: 100%;
+        background-image: url('https://i.ytimg.com/vi/cikbGOeSCQ4/maxresdefault.jpg');
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+    }
+
+    .card-title{
+        font-size: 1.2rem;
+    }
+
+
 }

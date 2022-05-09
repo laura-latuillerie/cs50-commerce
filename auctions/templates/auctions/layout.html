@@ -9,22 +9,24 @@
     <title>{% block title %}Cat Auctions - Auctions for Cat Lovers{% endblock %}</title>
 </head>
 <body>
-    <div class="container-fluid text-light bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <header class="container">
-            <div class="row d-flex align-items-center">
-                <div class="col col-sm-10 d-flex flex-direction-row">
-                    <a href="{% url 'index' %}" class="text-decoration-none text-light"><h1>Cat Auctions</h1></a>
-                    <ul class="nav align-items-center">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'index' %}">Active Listings</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Categories</a>
-                            
-                            <ul class="dropdown-menu">
+            <a href="{% url 'index' %}" class=" navbar-brand text-light"><h1 class="text-uppercase">Cat Auctions</h1></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'index' %}">Active Listings</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Categories</a>
+                        
+                        <ul class="dropdown-menu dropdown-menu-dark">
                             {% for category in categorys %}
-                            <li><a class="dropdown-item" href="#">{{ category }}<a></li>
-                            {% endfor %}
+                            <li class="text-decoration-none"><a class="dropdown-item" href="#">{{ category }}<a></li>
+                                {% endfor %}
                             </ul>
                         </li>
                         {% if user.is_authenticated %}
@@ -42,21 +44,24 @@
                             <a class="nav-link" href="{% url 'register' %}">Register</a>
                         </li>
                         {% endif %}
-                    </ul>
-                </div>
-                
-                <div class="col d-flex justify-content-end align-items-center">
+                </ul>
+                <div class="d-flex align-items-center text-light">
                     {% if user.is_authenticated %}
-                        <p>Signed in as <strong>🦊 {{ user.username }}</strong>.</p>
+                    <div class="mb-0 p-0">
+                       <p class="mb-0">Signed in as <strong>🦊 {{ user.username }}</strong>.</p> 
+                    </div>
                     {% else %}
-                        <p>👽 Not signed in.</p>
+                    <div class="mb-0 p-0">
+                        <p class="mb-0" >👽 Not signed in.</p>
+                    </div>
                     {% endif %}
                 </div>
             </div>
+            
         </header>
-    </div>
-    {% block body %}
-    {% endblock %}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    </nav>
+{% block body %}
+{% endblock %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>
