@@ -13,7 +13,7 @@
         <header class="container">
             <div class="row d-flex align-items-center">
                 <div class="col col-sm-10 d-flex flex-direction-row">
-                    <h1>Cat Auctions</h1>
+                    <a href="{% url 'index' %}" class="text-decoration-none text-light"><h1>Cat Auctions</h1></a>
                     <ul class="nav align-items-center">
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'index' %}">Active Listings</a>
@@ -29,7 +29,7 @@
                         </li>
                         {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link" href="">Create Listing</a>
+                            <a class="nav-link" href="{% url 'create_listing' %}">Create Listing</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
