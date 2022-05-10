@@ -4,9 +4,13 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-
 from .models import User, Category, Listing
+from django import forms
 
+##### FORMS #####
+
+class NewListingForm(forms.Form):
+    title = forms.CharField(label="title")
 
 def index(request):
     
@@ -83,5 +87,8 @@ def listing_page(request, listing_id):
         }
     return render(request, "auctions/listing_page.html", content)
 
+@login_required
 def create_listing(request):
-    return render(request, "auctions/create.html")
+    return render(request, "auctions/create_listing.html", {
+        "form": NewListingForm()
+    })

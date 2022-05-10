@@ -69,11 +69,6 @@ header h1{
     margin : 20px auto;
 }
 
-.form-control.create{
-    max-width: 100%;
-    margin : 0px auto;
-}
-
 .login.register.btn{
     width: 20%;
 }
