@@ -64,7 +64,7 @@ header h1{
     margin: 10px auto;
 }
 
-.form-control{
+.form-control.login, .form-control.register{
     max-width: 80%;
     margin : 20px auto;
 }
@@ -72,6 +72,7 @@ header h1{
 .login.register.btn{
     width: 20%;
 }
+
 
 /***** CARDS OF INDEX *****/
 

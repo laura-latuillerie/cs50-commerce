@@ -7,10 +7,14 @@
         <h2>🪅<br>Create Listing</h2>  
         <p class="text-muted mb-10">Welcome back !</p>
 
-        <form action="{% url 'create_listing' %}" method="post">
+        <form action="{% url 'create_listing' %}" method="post" class=" mx-4 create-form">
             {% csrf_token %}
-            {{ form }}
-            <input type="submit">
+            {% for field in form %}
+                <label class="d-block text-start">{{ field.label_tag }}</label>
+                {{ field }}
+            {% endfor %}
+            <br>
+            <input type="submit" value="Create Listing" class="btn btn-primary text-center">
         </form>
     
     </div>

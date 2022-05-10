@@ -4,21 +4,24 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+#####
 from .models import User, Category, Listing
-from django import forms
+from .forms import NewListingForm
 
-##### FORMS #####
-
-class NewListingForm(forms.Form):
-    title = forms.CharField(label="title")
+#
+##### INDEX & GLOBAL #####
+#
+categorys = Category.objects.all().order_by('name')
 
 def index(request):
-    
     return render(request, "auctions/index.html", {
         "listings": Listing.objects.filter(active=True),
-        "categorys": Category.objects.all().order_by('name'),
+        "categorys": categorys
     })
 
+#
+##### ACCOUNTS ######
+#
 def login_view(request):
     if request.method == "POST":
 
@@ -38,11 +41,9 @@ def login_view(request):
     else:
         return render(request, "auctions/login.html")
 
-
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))
-
 
 def register(request):
     if request.method == "POST":
@@ -75,20 +76,25 @@ def listing_page(request, listing_id):
     listing = Listing.objects.get(id=listing_id)
     active_listings = Listing.objects.filter(active=True)
     if listing in active_listings:
-        content = {
+        context = {
+            "categorys": categorys,
             "listing" : listing,
-            "active"  : "🟢 Active"
+            "status"  : "🟢 Active"
         }
     else:
-        
-        content = {
+        context = {
+            "categorys": categorys,
             "listing" : listing,
-            "inactive"  : "🔴 Closed"
+            "status"  : "🔴 Closed"
         }
-    return render(request, "auctions/listing_page.html", content)
+    return render(request, "auctions/listing_page.html", context)
 
+#
+##### CREATE ######
+#
 @login_required
 def create_listing(request):
     return render(request, "auctions/create_listing.html", {
-        "form": NewListingForm()
+        "form": NewListingForm(),
+        "categorys": categorys
     })

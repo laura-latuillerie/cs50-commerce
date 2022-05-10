@@ -4,7 +4,7 @@
     {{ listing }}
 {% endblock %}
 {% block body %}
-<div class="container">
+<div class="container mt-5">
     <h2 class="text-center">➕ Listing Informations</h2>
     <hr/>
     <div class="container mt-5">
@@ -13,8 +13,8 @@
                 <img class="listing-img" src="{% if listing.image %}{{ listing.image }}{% else %}https://caer.univ-amu.fr/wp-content/uploads/default-placeholder.png{% endif %}" alt="Photo of {{ listing.title }}">
             </div>
             <div class="col col-xs-12 col-md-4 text-start align-items-center"> 
-                <h3 class="=">{{ listing.title }} <span class="text-muted fs-7">{{active}}</span></h3>
-                <span class="badge category bg-dark"><small>{{ listing.category }}</small></span>
+                <h3 class="=">{{ listing.title }} <span class="text-muted fs-7">{{status}}</span></h3>
+                <span class="badge category bg-multi"><small>{{ listing.category }}</small></span>
                 <h5 class="="><strong>Description</strong></h5>
                 <p>{{ listing.description }}</p>
                 <small class="text-muted">
