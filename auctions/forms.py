@@ -7,9 +7,13 @@ class NewListingForm(ModelForm):
     model = Listing
     fields = ['title', 'starting_bid', 'description', 'image', 'category']
     widgets = {
-      'title': forms.TextInput(attrs={'class': 'form-control'}),
-      'description': forms.Textarea(attrs={'rows':2, 'maxlength': 1000, 'class': 'form-control'}),
-      'starting_bid': forms.NumberInput(attrs={'class': 'form-control'}),
-      'image': forms.URLInput(attrs={'class': 'form-control'}),
-      'category' : forms.Select(choices=CATEGORY_CHOICES, attrs={'class' : 'form-select'}),
+      'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder' : 'Ex : Big Rainbow Kawaii Night Lamp'}),
+      'description': forms.Textarea(attrs={'rows':5, 'maxlength': 1024, 'class': 'form-control', 'placeholder' : 'Useful informations only'}),
+      'starting_bid': forms.NumberInput(attrs={'class': 'form-control', 'placeholder' : 'Only digits'}),
+      'image': forms.URLInput(attrs={'class': 'form-control', 'placeholder' : 'https://image-link.com'}),
+      'category' : forms.Select(choices=CATEGORY_CHOICES, attrs={'class' : 'form-select'})
+    }
+    labels = {
+      'image': 'Image (URL only)',
+      'category' : 'Choose category in list'
       }
