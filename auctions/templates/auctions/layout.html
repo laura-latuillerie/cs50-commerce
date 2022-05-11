@@ -42,6 +42,9 @@
                     </li>
                     {% if user.is_authenticated %}
                     <li class="nav-item">
+                        <a class="nav-link" href="">Watchlist</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{% url 'create_listing' %}">Create Listing</a>
                     </li>
                     <li class="nav-item">
@@ -74,6 +77,11 @@
 
 {% block body %}
 {% endblock %}
+
+    
+<div id="footer" class="bg-dark text-light text-center p-2">
+    <p>Copyright - CAT AUCTIONS 2022</p>
+</div>
 
 </body>
 </html>

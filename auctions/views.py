@@ -5,7 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
 #####
-from .models import User, Category, Listing
+from .models import User, Category, Listing, Watchlist
 from .forms import NewListingForm
 
 #
