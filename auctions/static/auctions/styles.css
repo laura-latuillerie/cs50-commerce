@@ -16,6 +16,11 @@ body{
     font-size: 0.8rem;
 }
 
+.small-img{
+    height: 150px;
+    width: auto;
+}
+
 /***** HEADER *****/
 
 header h1{
@@ -38,7 +43,7 @@ header h1{
 
 .form-box{
     border: 1px solid lightgrey;
-    padding : 50px 0;
+    padding : 10px 0 50px;
     border-radius: 20px ;
     max-width : 400px;
 }
