@@ -6,7 +6,7 @@ class User(AbstractUser):
     pass
 
 CATEGORY_CHOICES = (
-    ('initial', 'Choose'),
+    ('6', 'Choose'),
     ('Figurine', 'Figurine'),
     ('House Furnitures', 'House Furnitures'),
     ('Jewelry', 'Jewelry'),
@@ -28,7 +28,7 @@ class Listing(models.Model):
     description = models.CharField(max_length=256)
     starting_bid = models.DecimalField(max_digits=10, decimal_places=2)
     image = models.URLField(max_length=1024, blank=True, null=True)
-    category = models.ForeignKey(Category, on_delete=models.SET_DEFAULT, default='1')
+    category = models.ForeignKey(Category, on_delete=models.SET_DEFAULT, default='2')
     active = models.BooleanField(default=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="listings")
     created_at = models.DateTimeField(auto_now_add=True)

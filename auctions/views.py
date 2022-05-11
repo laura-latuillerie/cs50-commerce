@@ -2,10 +2,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
 #####
-from .models import CATEGORY_CHOICES, User, Category, Listing
+from .models import User, Category, Listing
 from .forms import NewListingForm
 
 #
@@ -94,10 +94,30 @@ def listing_page(request, listing_id):
 #
 @login_required
 def create_listing(request):
-    initial_data={
-        'category':'',
-    }
+    if request.method == 'POST':
+        form = NewListingForm(request.POST)
+        if form.is_valid():
+            # Sets author field in new listing
+            form.instance.author = request.user
+            # Saves new listing
+            new_listing = form.save()
+            # Redirect to listing page 
+            return HttpResponseRedirect(reverse("listing_page", args=(new_listing.pk,)))
+
+    else:
+        form = NewListingForm()
+
     return render(request, "auctions/create_listing.html", {
-        "form": NewListingForm(initial = initial_data),
+        "form": form,
         "categorys": categorys
     })
+
+#
+##### DELETE ######
+#
+@login_required
+def delete_listing(request, listing_id):
+    listing = Listing.objects.get(id=listing_id)
+    if listing.author == request.user:
+        listing.delete()
+        return redirect('index')

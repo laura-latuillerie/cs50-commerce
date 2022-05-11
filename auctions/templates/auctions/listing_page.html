@@ -12,7 +12,9 @@
             <div class="col col-xs-12 col-md-4 text-end">
                 <img class="listing-img" src="{% if listing.image %}{{ listing.image }}{% else %}https://caer.univ-amu.fr/wp-content/uploads/default-placeholder.png{% endif %}" alt="Photo of {{ listing.title }}">
             </div>
-            <div class="col col-xs-12 col-md-4 text-start align-items-center"> 
+            <div class="col col-xs-12 col-md-4 text-start align-items-center">
+                
+            <!-- LISTING INFORMATIONS -->
                 <h3 class="=">{{ listing.title }} <span class="text-muted fs-7">{{status}}</span></h3>
                 <span class="badge category bg-multi"><small>{{ listing.category }}</small></span>
                 <h5 class="="><strong>Description</strong></h5>
@@ -20,7 +22,14 @@
                 <small class="text-muted">
                     created by {{ listing.author }}</small>
                 <h5 class="card-text fs-2"><strong>{{ listing.starting_bid|intcomma }}€</strong></h5>
-                <a href="" class="btn btn-success">Bid</a>
+
+            <!-- BUTTONS -->
+                {% if request.user == listing.author %}
+                    <a class="btn btn-danger" href="{% url 'delete_listing' listing.id %}">Delete</a> 
+                {% else %}
+                    <a href="" class="btn btn-success">Bid</a>
+                {% endif %}
+
             </div>
         </div>        
     </div>
