@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from .models import Listing
+from .models import CATEGORY_CHOICES, Listing
 
 class NewListingForm(ModelForm):
   class Meta:
@@ -11,5 +11,5 @@ class NewListingForm(ModelForm):
       'description': forms.Textarea(attrs={'rows':2, 'maxlength': 1000, 'class': 'form-control'}),
       'starting_bid': forms.NumberInput(attrs={'class': 'form-control'}),
       'image': forms.URLInput(attrs={'class': 'form-control'}),
-      'category': forms.Select(attrs={'class': 'form-control'})
+      'category' : forms.Select(choices=CATEGORY_CHOICES, attrs={'class' : 'form-select'}),
       }

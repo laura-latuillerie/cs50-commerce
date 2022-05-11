@@ -5,15 +5,17 @@ from django.db import models
 class User(AbstractUser):
     pass
 
-class Category(models.Model):
-    CATEGORY_CHOICES = (
-        ('Figurine', 'Figurine'),
-        ('House Furnitures', 'House Furnitures'),
-        ('Jewelry', 'Jewelry'),
-        ('Painting', 'Painting'),
-        ('Plushie', 'Plushie'),
+CATEGORY_CHOICES = (
+    ('initial', 'Choose'),
+    ('Figurine', 'Figurine'),
+    ('House Furnitures', 'House Furnitures'),
+    ('Jewelry', 'Jewelry'),
+    ('Painting', 'Painting'),
+    ('Plushie', 'Plushie'),
     )
-    name = models.CharField(max_length=32, choices=CATEGORY_CHOICES)
+
+class Category(models.Model):
+    name = models.CharField(max_length=32, choices = CATEGORY_CHOICES)
 
     def __str__(self):
         return self.name

@@ -12,10 +12,6 @@ body{
     background: linear-gradient(124deg,  orange, red, purple, #2b1de8);
 }
 
-.bg-light-g{
-    background-color: gainsboro;
-}
-
 .fs-7{
     font-size: 0.8rem;
 }
@@ -34,18 +30,9 @@ header h1{
 /***** BANNER *****/
 
 .banner{
-    height: 100vh;
-    text-align: center;
+    height: 90vh;
 }
 
-.banner-text{
-    padding : 200px 0;
-}
-
-.banner-img{
-    height: 100%;
-    display: none;
-}
 
 /***** FORMS *****/
 

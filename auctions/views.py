@@ -5,7 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 #####
-from .models import User, Category, Listing
+from .models import CATEGORY_CHOICES, User, Category, Listing
 from .forms import NewListingForm
 
 #
@@ -94,7 +94,10 @@ def listing_page(request, listing_id):
 #
 @login_required
 def create_listing(request):
+    initial_data={
+        'category':'',
+    }
     return render(request, "auctions/create_listing.html", {
-        "form": NewListingForm(),
+        "form": NewListingForm(initial = initial_data),
         "categorys": categorys
     })
