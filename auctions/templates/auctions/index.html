@@ -7,23 +7,25 @@
             <div>
                 <h2 class="fs-1">Best cat products auctions website</h2>
                 <h3 class="fs-6">Put the highest bid to bring it back home</h3>
-                <a href="#active-listings" class="btn btn-dark mt-4">Browse Active Listings</a>  
+                <a href="#active-listings" class="btn btn-dark mt-4">Browse Active Listings</a>
             </div>
-            <img src="../../../media/cat-transparent-bag.png" alt="">
+            <img src="../../../media/cat-auction.png" alt="" class="medium-img mt-5">
         </div>
     </div>
 </div>
 
 <div class="container text-center my-5">
     <h3 id="active-listings" class="fs-1">🔥 Active Listings</h3>
-    <hr class="mb-3"/>
-    
+    <hr class="mb-3" />
+
     <div class="row">
         {% for listing in listings %}
         <div class="col-6 col-lg-4 col-xl-3 p-3">
             <div class="card">
-                <a href="" class="text-decoration-none text-dark">  
-                    <img class="card-img-top" src="{% if listing.image %}{{ listing.image }}{% else %}https://caer.univ-amu.fr/wp-content/uploads/default-placeholder.png{% endif %}" alt="Photo of {{ listing.title }}">
+                <a href="" class="text-decoration-none text-dark">
+                    <img class="card-img-top"
+                        src="{% if listing.image %}{{ listing.image }}{% else %}https://caer.univ-amu.fr/wp-content/uploads/default-placeholder.png{% endif %}"
+                        alt="Photo of {{ listing.title }}">
                     <div class="card-body">
                         <h5 class="card-title">{{ listing }}</h5>
                         <span class="badge category bg-multi"><small>{{ listing.category }}</small></span>
@@ -37,9 +39,9 @@
                 </a>
             </div>
         </div>
-            {% empty %}
-            No active listings
-            {% endfor %}
+        {% empty %}
+        No active listings
+        {% endfor %}
     </div>
 </div>
 {% endblock %}

@@ -21,6 +21,11 @@ body{
     width: auto;
 }
 
+.medium-img{
+    height: 400px;
+    width: auto;
+}
+
 /***** HEADER *****/
 
 header h1{
