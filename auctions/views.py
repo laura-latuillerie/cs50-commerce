@@ -8,16 +8,12 @@ from django.urls import reverse
 from .models import *
 from .forms import *
 
-#
-##### INDEX & GLOBAL #####
-#
-categorys = Category.objects.all().order_by('name')
 
 def index(request):
-    return render(request, "auctions/index.html", {
-        "listings": Listing.objects.filter(active=True),
-        "categorys": categorys
-    })
+    context = {
+            "listings": Listing.objects.filter(active=True),
+            "categorys": Category.objects.all().order_by('name')        }
+    return render(request, "auctions/index.html", context)
 
 #
 ##### ACCOUNTS ######
@@ -74,19 +70,16 @@ def register(request):
 
 def listing_page(request, listing_id):
     listing = Listing.objects.get(id=listing_id)
-    active_listings = Listing.objects.filter(active=True)
-    if listing in active_listings:
-        context = {
-            "categorys": categorys,
-            "listing" : listing,
-            "status"  : "🟢 Active"
-        }
-    else:
-        context = {
-            "categorys": categorys,
-            "listing" : listing,
-            "status"  : "🔴 Closed"
-        }
+    if request.user.is_authenticated:
+        is_in_watchlist = listing.is_in_watchlist(request.user)
+    else: 
+        is_in_watchlist = False
+    context = {
+        "categorys": Category.objects.all().order_by('name'),
+        "listing" : listing,
+        "status"  : "🟢 Active",
+        "is_in_watchlist": is_in_watchlist,
+    }
     return render(request, "auctions/listing_page.html", context)
 
 #
@@ -109,7 +102,7 @@ def create_listing(request):
 
     return render(request, "auctions/create_listing.html", {
         "form": form,
-        "categorys": categorys
+        "categorys": Category.objects.all().order_by('name')
     })
 
 #
@@ -122,7 +115,29 @@ def delete_listing(request, listing_id):
         listing.delete()
         return redirect('index')
 
+#
+##### WATCHLIST ######
+#
 @login_required
-def manage_watchlist(request):
-    if request.method == 'POST':
-        return index(request)
+def watchlist(request):   
+    return render(request, "auctions/watchlist.html", {
+        "watchlist": request.user.watchlist.all()
+    })
+    
+@login_required
+def manage_watchlist(request, listing_id):
+    if request.method == "POST":
+        # Pulling out info for user and listing
+        user = request.user
+        listing = Listing.objects.get(id=listing_id)
+        # If the user has this on their watchlist, remove it.
+        if listing.is_in_watchlist(user):
+            listing.watched_by.remove(user)
+        # If the user doesn't have this listing on their watchlist, add it.
+        else:
+            user.watchlist.add(listing)
+
+        return HttpResponseRedirect(reverse("listing_page", args=(listing_id,)))
+
+        
+    

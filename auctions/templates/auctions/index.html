@@ -22,10 +22,23 @@
         {% for listing in listings %}
         <div class="col-6 col-lg-4 col-xl-3 p-3">
             <div class="card">
-                <a href="" class="text-decoration-none text-dark">
-                    <img class="card-img-top"
+                <a href="{% url 'listing_page' listing.id %}" class="text-decoration-none text-dark">
+                    <div class="card-head">
+                        <img class="card-img-top rounded-4"
                         src="{% if listing.image %}{{ listing.image }}{% else %}https://caer.univ-amu.fr/wp-content/uploads/default-placeholder.png{% endif %}"
                         alt="Photo of {{ listing.title }}">
+                        {% if user.is_authenticated and request.user != listing.author %}
+                        <form action="{% url 'manage_watchlist' listing.id %}" method="post" class="d-inline-block">    
+                            {% csrf_token %}
+                            {% if is_in_watchlist %}
+                            <input type="submit" value="❌" class="btn rounded-circle p-2 bg-dark text-light">
+                            {% else %}
+                            <input type="submit" value="🤍" class="btn rounded-circle p-2 bg-pink text-light">
+                            {% endif %}
+                        </form>
+                        {% endif %}
+                    </div>
+                    
                     <div class="card-body">
                         <h5 class="card-title">{{ listing }}</h5>
                         <span class="badge category bg-multi"><small>{{ listing.category }}</small></span>

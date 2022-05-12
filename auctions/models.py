@@ -6,7 +6,6 @@ class User(AbstractUser):
     pass
 
 CATEGORY_CHOICES = (
-    ('6', 'Choose'),
     ('Figurine', 'Figurine'),
     ('House Furnitures', 'House Furnitures'),
     ('Jewelry', 'Jewelry'),
@@ -32,11 +31,16 @@ class Listing(models.Model):
     active = models.BooleanField(default=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="listings")
     created_at = models.DateTimeField(auto_now_add=True)
-    watched_by = models.ManyToManyField(User, blank=True, related_name="watcher")
+    watched_by = models.ManyToManyField(User, blank=True, related_name="watchlist")
     winner = models.ForeignKey(User, blank = True, on_delete = models.CASCADE, related_name = "new_owner", null = True)
     
     def __str__(self):
         return f"{self.title}"
+    
+    def is_in_watchlist(self, user):
+        """Tells us if it's in the watchlist"""
+        return user.watchlist.filter(pk=self.pk).exists()
+        
 
 class Bid(models.Model):
     value = models.FloatField(validators = [MinValueValidator(1)])
@@ -51,8 +55,3 @@ class Comment(models.Model):
     content = models.TextField()
     user = models.ForeignKey(User, on_delete = models.CASCADE)
     listing = models.ForeignKey(Listing, on_delete = models.CASCADE)
-    
-class Watchlist(models.Model):
-    watcher = models.ForeignKey(User, on_delete = models.CASCADE, blank = False)
-    listing = models.ForeignKey(Listing, on_delete = models.CASCADE, blank = False)
-    

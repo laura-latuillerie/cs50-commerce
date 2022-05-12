@@ -20,6 +20,16 @@ body{
     font-size: 0.8rem;
 }
 
+.box-shadow{
+    box-shadow: 10px 10px 30px rgba(138, 138, 138, 0.241);
+}
+
+.rounded-4{
+    border-radius: 20px;
+}
+
+/***** IMG RULES *****/
+
 .small-img{
     height: 150px;
     width: auto;
@@ -28,6 +38,12 @@ body{
 .medium-img{
     height: 400px;
     width: auto;
+}
+
+.listing-img, .card-img-top{  
+    height: 400px;
+    width: 400px;
+    object-fit: cover;
 }
 
 /***** HEADER *****/
@@ -51,7 +67,7 @@ header h1{
 /***** FORMS *****/
 
 .form-box{
-    border: 1px solid lightgrey;
+    box-shadow: 10px 10px 30px rgba(138, 138, 138, 0.241);
     padding : 10px 0 50px;
     border-radius: 20px ;
     max-width : 400px;
@@ -78,8 +94,20 @@ header h1{
 /***** CARDS OF INDEX *****/
 
 .card{
+    border : 0px;
+    box-shadow: 10px 10px 30px rgba(138, 138, 138, 0.241);
     max-width : 100%;
     margin-top : 20px;
+}
+
+.card-head{
+    position: relative;
+}
+
+.card-head form{
+    position: absolute;
+    bottom : -30px;
+    transform: translate(-50%, -50%);
 }
 
 .card-title{
@@ -87,22 +115,18 @@ header h1{
 }
 
 .card-img-top{
-    max-width: 100%!important;
+    height: 300px;
+    width: 300px;
+    object-fit: cover;
+    padding:  30px;
 }
 
 .badge.category{
     text-transform: uppercase;
-    margin : 0 0 10px;
 }
 
 .link-more{
     margin : 0 0 20px;
-}
-
-/***** LISTING PAGE *****/
-
-.listing-img{
-    max-width: 100%;
 }
 
 /***** FOOTER *****/
