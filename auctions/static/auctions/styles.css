@@ -12,6 +12,10 @@ body{
     background: linear-gradient(124deg,  orange, red, purple, #2b1de8);
 }
 
+.bg-pink{
+    background-color: var(--bs-pink);
+}
+
 .fs-7{
     font-size: 0.8rem;
 }
@@ -101,6 +105,13 @@ header h1{
     max-width: 100%;
 }
 
+/***** FOOTER *****/
+
+#footer{
+    position: fixed;
+    bottom : 0;
+    width: 100%;
+}
 
 @media (min-width : 768px){
 

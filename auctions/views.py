@@ -5,8 +5,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
 #####
-from .models import User, Category, Listing, Watchlist
-from .forms import NewListingForm
+from .models import *
+from .forms import *
 
 #
 ##### INDEX & GLOBAL #####
@@ -121,3 +121,8 @@ def delete_listing(request, listing_id):
     if listing.author == request.user:
         listing.delete()
         return redirect('index')
+
+@login_required
+def manage_watchlist(request):
+    if request.method == 'POST':
+        return index(request)
