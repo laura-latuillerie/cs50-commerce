@@ -7,7 +7,7 @@
 
 {% block body %}
 <div class="container text-center my-5">
-    <h3 id="active-listings" class="fs-1">🔥 Active Listings</h3>
+    <h3 id="active-listings" class="fs-1">🔎 Category : {{category.name}}</h3>
     <hr class="mb-3" />
 
     <div class="row">
@@ -43,7 +43,7 @@
             </div>
         </div>
         {% empty %}
-        No active listings
+            <p class="text-center">No listings found.</p>
         {% endfor %}
     </div>
 </div>

@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-0">
         <header class="container">
             <a href="{% url 'index' %}" class=" navbar-brand text-light">
                 <h1 class="text-uppercase">Cat Auctions</h1>
@@ -27,6 +27,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    {% if user.is_authenticated %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
                             aria-expanded="false">Listings</a>
@@ -38,14 +39,13 @@
                         </ul>
                     </li>
                     
-                    {% if user.is_authenticated %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
                             aria-expanded="false">Categories</a>
 
                         <ul class="dropdown-menu dropdown-menu-dark">
                             {% for category in categorys %}
-                            <li class="text-decoration-none"><a class="dropdown-item" href="#">{{ category }}</a></li>
+                            <li class="text-decoration-none"><a class="dropdown-item" href="{% url 'categories' category.id %}">{{ category }}</a></li>
                             {% endfor %}
                         </ul>
                     </li>
@@ -70,7 +70,7 @@
                 <div class="d-flex align-items-center text-light">
                     {% if user.is_authenticated %}
                     <div class="mb-0 p-0">
-                        <p class="mb-0">Signed in as <strong>🦊 {{ user.username }}</strong>.</p>
+                        <p class="mb-0">Signed in as <strong>😼 {{ user.username }}</strong>.</p>
                     </div>
                     {% else %}
                     <div class="mb-0 p-0">

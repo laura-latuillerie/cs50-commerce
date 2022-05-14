@@ -23,8 +23,7 @@ def index(request):
                 "categorys": Category.objects.all().order_by('name'),
                 "watchlist": request.user.watchlist.all()}
     else:
-        
-         context = {
+        context = {
             "listings": listings
         }
     return render(request, "auctions/index.html", context)
@@ -81,7 +80,6 @@ def register(request):
     else:
         return render(request, "auctions/register.html")
 
-
 #
 ##### WATCHLIST ######
 #
@@ -111,33 +109,26 @@ def listing_page(request, listing_id):
         listing.is_watched = False
     
     if listing.active == True:
-        context = {
-            "categorys": Category.objects.all().order_by('name'),
-            "listing" : listing,
-            "status"  : "🟢 Active",
-            "watchlist": request.user.watchlist.all()
-        }
+        status =  "🟢 Active"
     else:
-        context = {
-            "categorys": Category.objects.all().order_by('name'),
-            "listing" : listing,
-            "status"  : "🔴 Closed",
-            "watchlist": request.user.watchlist.all()
-        }
-    return render(request, "auctions/listing_page.html", context)
+        status = "🔴 Closed"
+
+    return render(request, "auctions/listing_page.html", {
+        "categorys": Category.objects.all().order_by('name'),
+        "listing" : listing,
+        "status"  : status,
+        "watchlist": request.user.watchlist.all()
+    })
 
 #
-##### CREATE ######
+##### CREATING ######
 #
 def create_listing(request):
     if request.method == 'POST':
         form = NewListingForm(request.POST)
         if form.is_valid():
-            # Sets author field in new listing
             form.instance.author = request.user
-            # Saves new listing
             new_listing = form.save()
-            # Redirect to listing page 
             return HttpResponseRedirect(reverse("listing_page", args=(new_listing.pk,)))
 
     else:
@@ -149,8 +140,19 @@ def create_listing(request):
         "watchlist": request.user.watchlist.all()
     })
 
+def my_listings(request):
+    my_listings = Listing.objects.filter(author=request.user)
+    closed_listings = Listing.objects.filter(active=False)
+    context = {
+        "my_listings": my_listings,
+        "categorys": Category.objects.all().order_by('name'),
+        "closed_listings": closed_listings,
+        "watchlist": request.user.watchlist.all()
+    }
+    return render(request, "auctions/my_listings.html", context)
+
 #
-##### CLOSE ######
+##### CLOSING ######
 #
 def close_listing(request, listing_id):
     listing = Listing.objects.get(id=listing_id)
@@ -161,13 +163,19 @@ def close_listing(request, listing_id):
 def closed_listings(request):
     closed_listings = Listing.objects.filter(active=False)
     context = {
+        "categorys": Category.objects.all().order_by('name'),
         "closed_listings": closed_listings,
+        "watchlist": request.user.watchlist.all()
     }
     return render(request, "auctions/closed_listings.html", context)
 
-def my_listings(request):
-    my_listings = Listing.objects.filter(author=request.user)
-    context = {
-        "my_listings": my_listings,
-    }
-    return render(request, "auctions/my_listings.html", context)
+#
+##### CATEGORIES ######
+#
+def categories(request, category_id):
+    return render(request, "auctions/categories.html", {
+        "category": Category.objects.get(id=category_id),
+        "categorys": Category.objects.all().order_by('name'),
+        "listings": Listing.objects.filter(active=True, category=category_id),
+        "watchlist": request.user.watchlist.all()
+    })
