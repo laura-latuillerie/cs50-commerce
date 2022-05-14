@@ -164,3 +164,10 @@ def closed_listings(request):
         "closed_listings": closed_listings,
     }
     return render(request, "auctions/closed_listings.html", context)
+
+def my_listings(request):
+    my_listings = Listing.objects.filter(author=request.user)
+    context = {
+        "my_listings": my_listings,
+    }
+    return render(request, "auctions/my_listings.html", context)
