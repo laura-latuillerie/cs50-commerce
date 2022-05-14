@@ -34,8 +34,10 @@
                     </div>
                 <div>
                         <!-- BUTTONS -->
-                        {% if request.user == listing.author %}
-                            <a class="btn btn-danger mt-3" href="{% url 'delete_listing' listing.id %}">Delete</a>
+                        {% if request.user == listing.author and listing.active %}
+                            <a class="btn btn-danger mt-3" href="{% url 'close_listing' listing.id %}">Close</a>
+                        {% elif not listing.active %}
+                            Closed
                         {% else %}
                             <a href="" class="btn btn-success">Bid</a>
                             {% if listing.is_watched %}
