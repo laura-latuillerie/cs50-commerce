@@ -109,7 +109,7 @@ header h1{
 }
 
 .card-body{
-    padding-top : 0;
+    padding : 0!important;
 }
 
 .sm-fav{

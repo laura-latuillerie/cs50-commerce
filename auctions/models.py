@@ -36,7 +36,7 @@ class Listing(models.Model):
     
     def __str__(self):
         return f"{self.title}"
-        
+
 class Bid(models.Model):
     value = models.FloatField(validators = [MinValueValidator(1)])
     listing = models.ForeignKey(Listing, verbose_name = "price", on_delete=models.CASCADE)
@@ -47,6 +47,6 @@ class Bid(models.Model):
         return (f"A bid of {self.value} made for the item - \n{self.listing}\n by user - {self.user}")
     
 class Comment(models.Model):
-    content = models.TextField()
-    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    content = models.CharField(max_length=512) 
+    commenter = models.ForeignKey(User, on_delete = models.CASCADE)
     listing = models.ForeignKey(Listing, on_delete = models.CASCADE)
