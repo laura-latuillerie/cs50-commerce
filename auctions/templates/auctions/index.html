@@ -27,16 +27,13 @@
                         <img class="card-img-top rounded-4"
                         src="{% if listing.image %}{{ listing.image }}{% else %}https://caer.univ-amu.fr/wp-content/uploads/default-placeholder.png{% endif %}"
                         alt="Photo of {{ listing.title }}">
-                        {% if user.is_authenticated and request.user != listing.author %}
-                        <form action="{% url 'manage_watchlist' listing.id %}" method="post" class="d-inline-block">    
-                            {% csrf_token %}
-                            {% if is_in_watchlist %}
-                            <input type="submit" value="❌" class="btn rounded-circle p-2 bg-dark text-light">
-                            {% else %}
-                            <input type="submit" value="🤍" class="btn rounded-circle p-2 bg-pink text-light">
-                            {% endif %}
-                        </form>
-                        {% endif %}
+                {% if user.is_authenticated and request.user != listing.author%}       
+                    {% if listing.is_watched %}
+                        <a href ="{% url 'manage_watchlist' listing.id  %}" class="rounded-circle bg-green sm-fav unwatch p-2 my-0"><i class="fa-solid fa-eye text-light"></i></i></a>
+                    {% else %}
+                        <a href ="{% url 'manage_watchlist' listing.id  %}" class="rounded-circle bg-light sm-fav watch p-2 my-0"><i class="fa-solid fa-eye-slash"></i></a>
+                    {% endif %}
+                {% endif %}
                     </div>
                     
                     <div class="card-body">
@@ -45,11 +42,12 @@
                         <h5 class="card-text fs-2"><strong>{{ listing.starting_bid|intcomma }}€</strong></h5>
                     </div>
                     <a href="{% url 'listing_page' listing.id %}" class="link-more">Show More +</a>
+                </a>
                     <div class="card-footer">
                         <small class="text-muted">
                             created at {{ listing.created_at }} by {{ listing.author }}</small>
                     </div>
-                </a>
+                    
             </div>
         </div>
         {% empty %}

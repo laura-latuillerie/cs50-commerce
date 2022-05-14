@@ -1,3 +1,4 @@
+from multiprocessing import context
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
@@ -10,9 +11,22 @@ from .forms import *
 
 
 def index(request):
-    context = {
-            "listings": Listing.objects.filter(active=True),
-            "categorys": Category.objects.all().order_by('name')        }
+    listings = Listing.objects.filter(active=True)
+    if request.user.is_authenticated:
+        for listing in listings:
+            if request.user in listing.watcher.all():
+                listing.is_watched = True
+            else:
+                listing.is_watched = False 
+            context = {
+                "listings": listings,
+                "categorys": Category.objects.all().order_by('name'),
+                "watchlist": request.user.watchlist.all()}
+    else:
+        
+         context = {
+            "listings": listings
+        }
     return render(request, "auctions/index.html", context)
 
 #
@@ -68,24 +82,43 @@ def register(request):
         return render(request, "auctions/register.html")
 
 
+#
+##### WATCHLIST ######
+#
+def watchlist(request):   
+    return render(request, "auctions/watchlist.html", {
+        "watchlist": request.user.watchlist.all()
+    })
+
+def manage_watchlist(request, listing_id):
+    listing_object = Listing.objects.get(id=listing_id)
+    if request.user in listing_object.watcher.all():
+            listing_object.watcher.remove(request.user)
+    else:
+        listing_object.watcher.add(request.user)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+#
+##### VIEW SINGLE LISTING PAGE
+#
+@login_required(login_url='login')
 def listing_page(request, listing_id):
     listing = Listing.objects.get(id=listing_id)
-    if request.user.is_authenticated:
-        is_in_watchlist = listing.is_in_watchlist(request.user)
+    if request.user in listing.watcher.all():
+        listing.is_watched = True
     else: 
-        is_in_watchlist = False
+        listing.is_watched = False
     context = {
         "categorys": Category.objects.all().order_by('name'),
         "listing" : listing,
         "status"  : "🟢 Active",
-        "is_in_watchlist": is_in_watchlist,
+        "watchlist": request.user.watchlist.all()
     }
     return render(request, "auctions/listing_page.html", context)
 
 #
 ##### CREATE ######
 #
-@login_required
 def create_listing(request):
     if request.method == 'POST':
         form = NewListingForm(request.POST)
@@ -102,42 +135,18 @@ def create_listing(request):
 
     return render(request, "auctions/create_listing.html", {
         "form": form,
-        "categorys": Category.objects.all().order_by('name')
+        "categorys": Category.objects.all().order_by('name'),
+        "watchlist": request.user.watchlist.all()
     })
 
 #
 ##### DELETE ######
 #
-@login_required
 def delete_listing(request, listing_id):
     listing = Listing.objects.get(id=listing_id)
     if listing.author == request.user:
         listing.delete()
         return redirect('index')
-
-#
-##### WATCHLIST ######
-#
-@login_required
-def watchlist(request):   
-    return render(request, "auctions/watchlist.html", {
-        "watchlist": request.user.watchlist.all()
-    })
-    
-@login_required
-def manage_watchlist(request, listing_id):
-    if request.method == "POST":
-        # Pulling out info for user and listing
-        user = request.user
-        listing = Listing.objects.get(id=listing_id)
-        # If the user has this on their watchlist, remove it.
-        if listing.is_in_watchlist(user):
-            listing.watched_by.remove(user)
-        # If the user doesn't have this listing on their watchlist, add it.
-        else:
-            user.watchlist.add(listing)
-
-        return HttpResponseRedirect(reverse("listing_page", args=(listing_id,)))
 
         
     

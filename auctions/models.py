@@ -31,17 +31,12 @@ class Listing(models.Model):
     active = models.BooleanField(default=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="listings")
     created_at = models.DateTimeField(auto_now_add=True)
-    watched_by = models.ManyToManyField(User, blank=True, related_name="watchlist")
+    watcher = models.ManyToManyField(User, blank=True, related_name="watchlist")
     winner = models.ForeignKey(User, blank = True, on_delete = models.CASCADE, related_name = "new_owner", null = True)
     
     def __str__(self):
         return f"{self.title}"
-    
-    def is_in_watchlist(self, user):
-        """Tells us if it's in the watchlist"""
-        return user.watchlist.filter(pk=self.pk).exists()
         
-
 class Bid(models.Model):
     value = models.FloatField(validators = [MinValueValidator(1)])
     listing = models.ForeignKey(Listing, verbose_name = "price", on_delete=models.CASCADE)

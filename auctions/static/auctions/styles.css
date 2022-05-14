@@ -12,8 +12,12 @@ body{
     background: linear-gradient(124deg,  orange, red, purple, #2b1de8);
 }
 
-.bg-pink{
-    background-color: var(--bs-pink);
+.bg-light-g{
+    background-color: gainsboro;
+}
+
+.bg-green{
+    background-color : var(--bs-green);
 }
 
 .fs-7{
@@ -21,7 +25,7 @@ body{
 }
 
 .box-shadow{
-    box-shadow: 10px 10px 30px rgba(138, 138, 138, 0.241);
+    box-shadow: 10px 10px 30px rgba(37, 37, 37, 0.241);
 }
 
 .rounded-4{
@@ -104,10 +108,13 @@ header h1{
     position: relative;
 }
 
-.card-head form{
+.sm-fav{
     position: absolute;
-    bottom : -30px;
+    height: 40px;
+    width: 40px;
+    bottom : -10px;
     transform: translate(-50%, -50%);
+    text-decoration: none;
 }
 
 .card-title{
