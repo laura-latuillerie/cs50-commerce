@@ -5,24 +5,28 @@
     <h3 id="active-listings" class="fs-1">👀 My Watchlist</h3>
     <hr class="mb-3" />
 
-   <div class="row">
+    <div class="row">
         {% for listing in watchlist %}
         <div class="col-6 col-lg-4 col-xl-3 p-3">
             <div class="card">
                 <a href="{% url 'listing_page' listing.id %}" class="text-decoration-none text-dark">
                     <div class="card-head">
                         <img class="card-img-top rounded-4"
-                        src="{% if listing.image %}{{ listing.image }}{% else %}https://caer.univ-amu.fr/wp-content/uploads/default-placeholder.png{% endif %}"
-                        alt="Photo of {{ listing.title }}">
-                {% if user.is_authenticated and request.user != listing.author%}       
-                    {% if listing.is_watched %}
-                        <a href ="{% url 'manage_watchlist' listing.id  %}" class="rounded-circle bg-green sm-fav unwatch p-2 my-0"><i class="fa-solid fa-eye text-light"></i></i></a>
-                    {% else %}
-                        <a href ="{% url 'manage_watchlist' listing.id  %}" class="rounded-circle bg-light sm-fav watch p-2 my-0"><i class="fa-solid fa-eye-slash"></i></a>
-                    {% endif %}
-                {% endif %}
+                            src="{% if listing.image %}{{ listing.image }}{% else %}https://caer.univ-amu.fr/wp-content/uploads/default-placeholder.png{% endif %}"
+                            alt="Photo of {{ listing.title }}">
+                        {% if user.is_authenticated and request.user != listing.author%}
+                        {% if listing.is_watched %}
+                        <a href="{% url 'manage_watchlist' listing.id  %}"
+                            class="rounded-circle bg-green sm-fav unwatch p-2 my-0"><i
+                                class="fa-solid fa-eye text-light"></i></i></a>
+                        {% else %}
+                        <a href="{% url 'manage_watchlist' listing.id  %}"
+                            class="rounded-circle bg-light sm-fav watch p-2 my-0"><i
+                                class="fa-solid fa-eye-slash"></i></a>
+                        {% endif %}
+                        {% endif %}
                     </div>
-                    
+
                     <div class="card-body">
                         <h5 class="card-title">{{ listing }}</h5>
                         <span class="badge category bg-multi"><small>{{ listing.category }}</small></span>
@@ -30,15 +34,15 @@
                     </div>
                     <a href="{% url 'listing_page' listing.id %}" class="link-more">Show More +</a>
                 </a>
-                    <div class="card-footer">
-                        <small class="text-muted">
-                            created at {{ listing.created_at }} by {{ listing.author }}</small>
-                    </div>
-                    
+                <div class="card-footer">
+                    <small class="text-muted">
+                        created at {{ listing.created_at }} by {{ listing.author }}</small>
+                </div>
+
             </div>
         </div>
         {% empty %}
-        <p class="text-center">No listings in watchlist</p>    
+        <p class="text-center">No listings in watchlist</p>
         {% endfor %}
     </div>
 </div>
