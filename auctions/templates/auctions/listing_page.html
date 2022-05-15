@@ -41,15 +41,19 @@ Cat Auctions - {{ listing }} product page
                     </div>
                     <div>
                     <!-- CLOSE BUTTON -->
-                        {% if request.user == listing.author and listing.active %}
+                        {% if request.user == listing.author %}
+                            {% if listing.active %}
                             <a class="btn btn-danger mt-3" href="{% url 'close_listing' listing.id %}">Close</a>
-                        {% elif not listing.active %}
+                            {% elif not listing.active and not winner %}
                             <a class="btn btn-warning mt-3" href="{% url 'close_listing' listing.id %}">Re-Open</a>
+                            {% else %}
+                             <p class="text-danger mt-3" href="">Listing Closed</p>
+                             {% endif %}
                         {% else %}
-                    
-                    <!-- BIDDING FORM -->
 
-                        <form action ="{% url 'bid' listing.id %}" method="post" class="row row-cols-lg-auto g-3 align-items-center">
+                    <!-- BIDDING FORM -->
+                            {% if listing.active %}
+                            <form action ="{% url 'bid' listing.id %}" method="post" class="row row-cols-lg-auto g-3 align-items-center">
                             {% csrf_token %}
                             <div class="col">
                                 <div class="input-group">
@@ -63,15 +67,16 @@ Cat Auctions - {{ listing }} product page
 
                      <!-- WATCHLIST -->
                             <div class="col">
-                                {% if listing.is_watched %}
+                            {% if listing.is_watched %}
                             <a href ="{% url 'manage_watchlist' listing.id %}" class="btn bg-danger text-light">Unwatch <i class="fa-solid fa-eye-slash"></i></a>
                             {% else %}
                             <a href ="{% url 'manage_watchlist' listing.id %}" class="btn bg-light-g text-dark">Watch it <i class="fa-solid fa-eye"></i></a>
                             {% endif %}
                             </div>
-                            
-                        </form>
-                            
+                            </form>
+                            {% else %}
+                             <p class="text-danger mt-3" href="">Listing Closed</p>
+                            {% endif %}
                         {% endif %}
                     </div>
                 </div>

@@ -15,7 +15,7 @@
         <div class="col-6 col-lg-4 col-xl-3 p-3 card-group">
             <div class="card">
                 <a href="{% url 'listing_page' listing.id %}" class="text-decoration-none text-dark">
-                    <div class="card-head">
+                    <div class="card-head close">
                         <img class="card-img-top rounded-4"
                             src="{% if listing.image %}{{ listing.image }}{% else %}https://caer.univ-amu.fr/wp-content/uploads/default-placeholder.png{% endif %}"
                             alt="Photo of {{ listing.title }}">
@@ -30,15 +30,25 @@
                                 class="fa-solid fa-eye-slash"></i></a>
                         {% endif %}
                         {% endif %}
+                        {% if not listing.active %}
+                        <div class="closed-content">
+                            <p class="p-2 m-0 text-dark">🔴 CLOSED</p>
+                        </div>
+                        {% endif %}
                     </div>
 
                     <div class="card-body">
                         <h5 class="card-title">{{ listing }}</h5>
                         <span class="badge category bg-multi"><small>{{ listing.category }}</small></span>
-                        {% if listing.current_price == 0 %}
+                    {% if listing.current_price == 0 %}
                         <h5 class="card-text fs-4 pt-2"><strong>{{ listing.starting_bid|intcomma }} €</strong></h5>
-                    {% else %}
+                        <p><small>No bids</small></p>
+                    {% elif listing.current_price != 0 and listing.active %}
                         <h5 class="card-text fs-4 pt-2"><strong>{{ listing.current_price|intcomma }} €</strong></h5>
+                        <p><small>Highest bid</small></p>
+                    {% else %}
+                        <h5 class="card-text fs-4 pt-2 text-success"><strong>{{ listing.current_price|intcomma }} €</strong></h5>
+                        <p><small>Final bid</small></p>
                     {% endif %}
                         <div class="card-text p-2 text-tr">
                             <small>{{listing.description }}</small>

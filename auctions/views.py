@@ -94,8 +94,10 @@ def manage_watchlist(request, listing_id):
     listing_object = Listing.objects.get(id=listing_id)
     if request.user in listing_object.watcher.all():
         listing_object.watcher.remove(request.user)
+        messages.error(request, f'Listing unwatched ❌')
     else:
         listing_object.watcher.add(request.user)
+        messages.success(request, f'Listing in watchlist 👍🏿')
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 #
@@ -111,6 +113,11 @@ def listing_page(request, listing_id):
     highest_bidder = ''
     winner = ''
     
+    if listing.active == True:
+        status =  "🟢 Active"
+    else:
+        status = "🔴 Closed"
+    
     if bids:
         bids_list = list(bids)
         for index in bids_list:
@@ -120,9 +127,14 @@ def listing_page(request, listing_id):
         # Get the highest bidder from all_bids
         highest_bidder = all_bids[-1].user
         listing.starting_bid = highest_bid
+        if listing.active == False:
+            winner = highest_bidder
+            messages.success(request, f'🥳 { winner } won the bid !')
     else:
         highest_bid
         highest_bidder
+        if listing.active == False:
+            messages.success(request, f'Successfully closed but no bidder 😭')
     
     # Check if in watchlist
     if request.user in listing.watcher.all():
@@ -130,14 +142,7 @@ def listing_page(request, listing_id):
     else: 
         listing.is_watched = False
         
-    if request.method == 'GET':
-    # Check if active or closed
-        if listing.active == True:
-            status =  "🟢 Active"
-        else:
-            status = "🔴 Closed"
-            winner = highest_bidder
-            messages.success(request, f'{winner} won the bid !')
+       
 
     context = {
         "categorys": Category.objects.all().order_by('name'),
