@@ -1,3 +1,4 @@
+from multiprocessing import AuthenticationError
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -136,6 +137,7 @@ def listing_page(request, listing_id):
         else:
             status = "🔴 Closed"
             winner = highest_bidder
+            messages.success(request, f'{winner} won the bid !')
 
     context = {
         "categorys": Category.objects.all().order_by('name'),
@@ -186,8 +188,12 @@ def my_listings(request):
 #
 def close_listing(request, listing_id):
     listing = Listing.objects.get(id=listing_id)
-    listing.active = False
-    listing.save()
+    if listing in Listing.objects.filter(active=False):
+        listing.active = True
+        listing.save()
+    else:
+        listing.active = False
+        listing.save()
     return HttpResponseRedirect(reverse("listing_page", args=(listing_id, )))
 
 def closed_listings(request):

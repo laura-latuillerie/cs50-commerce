@@ -24,8 +24,9 @@
     <hr class="mb-3" />
 
     <div class="row">
+        
         {% for listing in listings %}
-        <div class="col-6 col-lg-4 col-xl-3 p-3">
+        <div class="col-6 col-lg-4 col-xl-3 p-3 card-group">
             <div class="card">
                 <a href="{% url 'listing_page' listing.id %}" class="text-decoration-none text-dark">
                     <div class="card-head">
@@ -50,14 +51,16 @@
                     {% else %}
                         <h5 class="card-text fs-4 pt-2"><strong>{{ listing.current_price|intcomma }} €</strong></h5>
                     {% endif %}
+                        <div class="card-text p-2 text-tr">
+                            <small>{{listing.description }}</small>
+                        </div>
+                        <a href="{% url 'listing_page' listing.id %}" class="link-more">Show More +</a>
                     </div>
-                    <a href="{% url 'listing_page' listing.id %}" class="link-more">Show More +</a>
+                    <div class="card-footer mt-3">
+                    <small class="text-muted">
+                        created at {{ listing.created_at }} by {{ listing.author }}</small>
+                 </div>
                 </a>
-                    <div class="card-footer">
-                        <small class="text-muted">
-                            created at {{ listing.created_at }} by {{ listing.author }}</small>
-                    </div>
-                    
             </div>
         </div>
         {% empty %}

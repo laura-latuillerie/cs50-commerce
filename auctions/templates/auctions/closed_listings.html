@@ -8,12 +8,12 @@
 {% block body %}
 
 <div class="container text-center my-5">
-    <h3 id="active-listings" class="fs-1">🪦 Closed Listings</h3>
+    <h3 id="closed-listings" class="fs-1">🪦 Closed Listings</h3>
     <hr class="mb-3" />
 
     <div class="row">
         {% for listing in closed_listings %}
-        <div class="col-6 col-lg-4 col-xl-3 p-3">
+        <div class="col-6 col-lg-4 col-xl-3 p-3 card-group">
             <div class="card">
                 <a href="{% url 'listing_page' listing.id %}" class="text-decoration-none text-dark">
                     <div class="card-head closed">
@@ -21,22 +21,30 @@
                         src="{% if listing.image %}{{ listing.image }}{% else %}https://caer.univ-amu.fr/wp-content/uploads/default-placeholder.png{% endif %}"
                         alt="Photo of {{ listing.title }}">
                         <div class="text-danger closed-content">
-                            <p class="p-2 m-0">🔴 CLOSED</p></div>
+                            <p class="p-2 m-0">🔴 CLOSED</p>
+                        </div>
                     </div>
                     
                     <div class="card-body">
-                        
                         <h5 class="card-title">{{ listing }}</h5>
                         <span class="badge category bg-multi"><small>{{ listing.category }}</small></span>
-                        <h5 class="card-text fs-2 text-decoration-line-through"><strong>{{ listing.starting_bid|intcomma }}€</strong></h5>
-                    </div>
-                    <a href="{% url 'listing_page' listing.id %}" class="link-more">Show More +</a>
-                </a>
-                    <div class="card-footer">
-                        <small class="text-muted">
-                            created at {{ listing.created_at }} by {{ listing.author }}</small>
+                    {% if listing.current_price == 0 %}
+                        <h5 class="card-text fs-4 pt-2"><strong>{{ listing.starting_bid|intcomma }} €</strong></h5>
+                        <p><small>No bids</small></p>
+                    {% else %}
+                        <h5 class="card-text fs-4 pt-2 text-success"><strong>{{ listing.current_price|intcomma }} €</strong></h5>
+                        <p><small>Final bid</small></p>
+                    {% endif %}
+                        <a href="{% url 'listing_page' listing.id %}" class="link-more">Show More +</a>
                     </div>
                     
+              
+                    <div class="card-footer mt-3">
+                        <small class="text-muted">
+                            created at {{ listing.created_at }} by {{ listing.author }}
+                        </small>
+                    </div>
+                  </a>    
             </div>
         </div>
         {% empty %}

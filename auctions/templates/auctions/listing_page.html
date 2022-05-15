@@ -44,7 +44,7 @@ Cat Auctions - {{ listing }} product page
                         {% if request.user == listing.author and listing.active %}
                             <a class="btn btn-danger mt-3" href="{% url 'close_listing' listing.id %}">Close</a>
                         {% elif not listing.active %}
-                            Closed
+                            <a class="btn btn-warning mt-3" href="{% url 'close_listing' listing.id %}">Re-Open</a>
                         {% else %}
                     
                     <!-- BIDDING FORM -->

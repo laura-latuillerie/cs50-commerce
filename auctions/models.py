@@ -24,7 +24,7 @@ class Category(models.Model):
 
 class Listing(models.Model):
     title = models.CharField(max_length=128)
-    description = models.CharField(max_length=256)
+    description = models.CharField(max_length=180)
     starting_bid = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     current_price = models.DecimalField(decimal_places=2, max_digits=10, default=0.00)
     image = models.URLField(max_length=1024, blank=True, null=True)

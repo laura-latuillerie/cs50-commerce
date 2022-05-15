@@ -7,12 +7,12 @@
 
 {% block body %}
 <div class="container text-center my-5">
-    <h3 id="active-listings" class="fs-1">👀 My Watchlist</h3>
+    <h3 id="watchlist" class="fs-1">👀 My Watchlist</h3>
     <hr class="mb-3" />
 
     <div class="row">
         {% for listing in watchlist %}
-        <div class="col-6 col-lg-4 col-xl-3 p-3">
+        <div class="col-6 col-lg-4 col-xl-3 p-3 card-group">
             <div class="card">
                 <a href="{% url 'listing_page' listing.id %}" class="text-decoration-none text-dark">
                     <div class="card-head">
@@ -35,15 +35,22 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ listing }}</h5>
                         <span class="badge category bg-multi"><small>{{ listing.category }}</small></span>
-                        <h5 class="card-text fs-2"><strong>{{ listing.starting_bid|intcomma }}€</strong></h5>
+                        {% if listing.current_price == 0 %}
+                        <h5 class="card-text fs-4 pt-2"><strong>{{ listing.starting_bid|intcomma }} €</strong></h5>
+                    {% else %}
+                        <h5 class="card-text fs-4 pt-2"><strong>{{ listing.current_price|intcomma }} €</strong></h5>
+                    {% endif %}
+                        <div class="card-text p-2 text-tr">
+                            <small>{{listing.description }}</small>
+                        </div>
+                        <a href="{% url 'listing_page' listing.id %}" class="link-more">Show More +</a>
                     </div>
-                    <a href="{% url 'listing_page' listing.id %}" class="link-more">Show More +</a>
-                </a>
-                <div class="card-footer">
+                    
+                    <div class="card-footer mt-3">
                     <small class="text-muted">
                         created at {{ listing.created_at }} by {{ listing.author }}</small>
-                </div>
-
+                    </div>
+            </a>
             </div>
         </div>
         {% empty %}
