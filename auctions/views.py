@@ -159,16 +159,15 @@ def create_listing(request):
         if form.is_valid():
             form.instance.author = request.user
             new_listing = form.save()
+            messages.success(request, 'Listing successfully created.')
             return HttpResponseRedirect(reverse("listing_page", args=(new_listing.pk,)))
-
     else:
         form = NewListingForm()
 
     return render(request, "auctions/create_listing.html", {
         "form": form,
         "categorys": Category.objects.all().order_by('name'),
-        "watchlist": request.user.watchlist.all(),
-        "message" : 'You sucessfully added the listing to the Watchlist'
+        "watchlist": request.user.watchlist.all()
     })
 
 def my_listings(request):

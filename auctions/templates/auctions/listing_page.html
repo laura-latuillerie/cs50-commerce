@@ -5,16 +5,6 @@
 Cat Auctions - {{ listing }} product page
 {% endblock %}
 
-{% if message %}
-   <div class="alert alert-success" role="alert">
-         {{ message }}
-   </div> 
-{% else %}
-   <div class="alert alert-danger" role="alert">
-       {{ message }}
- </div> 
-{% endif %}
-
 {% block body %}
 <div class="container mt-5">
     <h2 class="text-center">➕ Listing Informations</h2>
@@ -45,7 +35,7 @@ Cat Auctions - {{ listing }} product page
                         {% elif bids %}
                         <h5 class="mb-0"><strong>Highest Bid</strong> 💪 of {{ bids|length }} bids.</h5>  Bid by {{ highest_bidder }}
                         {% else %}
-                        <h5 class="mb-0"><strong>Starting Price 🌱</strong></h5>Bid by {{ highest_bidder }}
+                        <h5 class="mb-0"><strong>Starting Price 🌱</strong></h5>Priced by {{ listing.author }}
                         {% endif %}
                         <h4 class="fs-2">{{ highest_bid|intcomma }}€</h5>
                     </div>
