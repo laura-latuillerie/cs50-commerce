@@ -1,4 +1,3 @@
-from multiprocessing import context
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
@@ -98,30 +97,78 @@ def manage_watchlist(request, listing_id):
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 #
-##### VIEW SINGLE LISTING PAGE
+##### LISTING PAGE & BIDDING
 #
 @login_required(login_url='login')
 def listing_page(request, listing_id):
+
     listing = Listing.objects.get(id=listing_id)
-    comments = listing.comments.all()
+    # Setting up for bidding #
+    bids = Bid.objects.filter(listing=listing)
+    all_bids = []
+    highest_bid = listing.starting_bid
+    highest_bidder = listing.author
+    winner = ''
+
+    if bids:
+        bids_list = list(bids)
+        for index in bids_list:
+            all_bids.append(index)
+        # Get the highest bid from all_bids
+        highest_bid = all_bids[-1].bid
+        # Get the highest bidder from all_bids
+        highest_bidder = all_bids[-1].user
+        listing.starting_bid = highest_bid
+    else:
+        highest_bid
+        highest_bidder
+    
+    # Check if in watchlist
     if request.user in listing.watcher.all():
         listing.is_watched = True
     else: 
         listing.is_watched = False
+        
+    if request.method == 'GET':
+    # Check if active or closed
+        if listing.active == True:
+            status =  "🟢 Active"
+        else:
+            status = "🔴 Closed"
+            winner = highest_bidder
+            context = {
+                "categorys": Category.objects.all().order_by('name'),
+                "listing" : listing,
+                "status"  : status,
+                "watchlist": request.user.watchlist.all(),
+                "comments": listing.comments.all(),
+                "highest_bid": highest_bid,
+                "highest_bidder": highest_bidder,
+                "bids" : bids,
+                "winner" : winner
+            }
+            return render(request, 'auctions/listing_page.html', context)
     
-    if listing.active == True:
-        status =  "🟢 Active"
-    else:
-        status = "🔴 Closed"
 
-    return render(request, "auctions/listing_page.html", {
+    else :
+        new_bid = int(request.POST["bid"])
+        if new_bid > highest_bid:
+            Bid.objects.create(bid=new_bid, user=request.user, listing=listing)
+            Listing.objects.filter(pk=listing_id).update(current_price=new_bid)
+        return HttpResponseRedirect(reverse("listing_page", args=(listing_id,)))
+    context = {
         "categorys": Category.objects.all().order_by('name'),
         "listing" : listing,
         "status"  : status,
         "watchlist": request.user.watchlist.all(),
-        "comments": comments
-    })
-
+        "comments": listing.comments.all(),
+        "highest_bid": highest_bid,
+        "highest_bidder": highest_bidder,
+        "bids" : bids,
+        "winner" : winner,
+        }
+    return render(request, 'auctions/listing_page.html', context)
+        
 #
 ##### CREATING ######
 #
@@ -139,7 +186,8 @@ def create_listing(request):
     return render(request, "auctions/create_listing.html", {
         "form": form,
         "categorys": Category.objects.all().order_by('name'),
-        "watchlist": request.user.watchlist.all()
+        "watchlist": request.user.watchlist.all(),
+        "message" : 'You sucessfully added the listing to the Watchlist'
     })
 
 def my_listings(request):
@@ -187,8 +235,8 @@ def categories(request, category_id):
 #
 def comment(request, listing_id): 
     user = request.user
-    listing = listing = Listing.objects.get(pk=listing_id)
+    listing = Listing.objects.get(pk=listing_id)
     text = request.POST["comment"]
     new_comment = Comment(content=text, commenter=user, listing=listing)
     new_comment.save()
-    return HttpResponseRedirect(reverse("listing_page", args=(listing_id, )))
+    return HttpResponseRedirect(reverse("listing_page", args=(listing_id,)))

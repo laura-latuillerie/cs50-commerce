@@ -44,7 +44,12 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ listing }}</h5>
                         <span class="badge rounded-pill category bg-multi"><small>{{ listing.category }}</small></span>
-                        <h5 class="card-text fs-4 pt-2"><strong>{{ listing.starting_bid|intcomma }}€</strong></h5>
+                    <!-- PRICING -->
+                    {% if listing.current_price == 0 %}
+                        <h5 class="card-text fs-4 pt-2"><strong>{{ listing.starting_bid|intcomma }} €</strong></h5>
+                    {% else %}
+                        <h5 class="card-text fs-4 pt-2"><strong>{{ listing.current_price|intcomma }} €</strong></h5>
+                    {% endif %}
                     </div>
                     <a href="{% url 'listing_page' listing.id %}" class="link-more">Show More +</a>
                 </a>

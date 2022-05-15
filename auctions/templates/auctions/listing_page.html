@@ -5,6 +5,18 @@
 Cat Auctions - {{ listing }} product page
 {% endblock %}
 
+{% if message %}
+{% if updated %}
+   <div class="alert alert-success" role="alert">
+         {{ message }}
+   </div> 
+{% else %}
+   <div class="alert alert-danger" role="alert">
+       {{ message }}
+ </div> 
+{% endif %}
+{% endif %}
+
 {% block body %}
 <div class="container mt-5">
     <h2 class="text-center">➕ Listing Informations</h2>
@@ -27,25 +39,51 @@ Cat Auctions - {{ listing }} product page
                             <span class="badge rounded-pill category bg-multi mb-4"><small>{{ listing.category }}</small></span>
                             <h5 class="fs-5"><strong>Description</strong></h5>
                             <p>{{ listing.description }}</p>
-                            
+                    </div>
+                    <!-- PRICING -->
+                    <div>
+                        {% if winner and not listing.active %}
+                        <h5 class="text-success mb-0"><strong>Winner 🏆</strong> is {{ highest_bidder }} !</h5> 
+                        {% elif bids %}
+                        <h5 class="mb-0"><strong>Highest Bid</strong> 💪 of {{ bids|length }} bids.</h5>  Bid by {{ highest_bidder }}
+                        {% else %}
+                        <h5 class="mb-0"><strong>Starting Price 🌱</strong></h5>Bid by {{ highest_bidder }}
+                        {% endif %}
+                        <h4 class="fs-2">{{ highest_bid|intcomma }}€</h5>
                     </div>
                     <div>
-                            <h5 class="fs-5"><strong>Price</strong></h5>
-                            <h5 class="fs-1"><strong>{{ listing.starting_bid|intcomma }}€</strong></strong></h5>
-                    </div>
-                    <div>
-                    <!-- BUTTONS -->
+                    <!-- CLOSE BUTTON -->
                         {% if request.user == listing.author and listing.active %}
                             <a class="btn btn-danger mt-3" href="{% url 'close_listing' listing.id %}">Close</a>
                         {% elif not listing.active %}
                             Closed
                         {% else %}
-                            <a href="" class="btn btn-success">Bid</a>
-                            {% if listing.is_watched %}
+                    
+                    <!-- BIDDING FORM -->
+
+                        <form action ="{% url 'listing_page' listing.id %}" method="post" class="row row-cols-lg-auto g-3 align-items-center">
+                            {% csrf_token %}
+                            <div class="col">
+                                <div class="input-group">
+                                <input name="bid" placeholder="Bid higher than price" class="form-control"></input>
+                                <div class="input-group-text">€</div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <input type="submit" class="btn btn-success" type="button" value="Bid 💰">
+                            </div>
+
+                     <!-- WATCHLIST -->
+                            <div class="col">
+                                {% if listing.is_watched %}
                             <a href ="{% url 'manage_watchlist' listing.id %}" class="btn bg-danger text-light">Unwatch <i class="fa-solid fa-eye-slash"></i></a>
                             {% else %}
-                            <a href ="{% url 'manage_watchlist' listing.id %}" class="btn bg-light-g text-dark b-1">Watch it <i class="fa-solid fa-eye"></i></a>
+                            <a href ="{% url 'manage_watchlist' listing.id %}" class="btn bg-light-g text-dark">Watch it <i class="fa-solid fa-eye"></i></a>
                             {% endif %}
+                            </div>
+                            
+                        </form>
+                            
                         {% endif %}
                     </div>
                 </div>
@@ -63,7 +101,7 @@ Cat Auctions - {{ listing }} product page
         </div>
         <div class="row justify-content-center my-5">
             <div class="col-12 col-md-10 box-shadow p-5 rounded-4">
-                <h3 class="text-center mb-3">🗣️Comments</h2>
+                <h3 class="text-center mb-3">🗣️Comments <span class="badge rounded-pill text-bg-secondary">{{comments|length}}</span></h2>
                 {% for comment in comments %}
                 <div class="card p-4">
                     <strong>Written by <span class="text-success">{{comment.commenter}}</span></strong><hr>
