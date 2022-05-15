@@ -2,7 +2,7 @@
 {% load humanize %}
 
 {% block title %}
-    Cat Auctions - {{ listing }} product page
+Cat Auctions - {{ listing }} product page
 {% endblock %}
 
 {% block body %}
@@ -14,28 +14,27 @@
             <div class="col-12 col-md-10 d-flex box-shadow p-5 rounded-4">
                 <div class="col-12 col-md-6">
                     <img class="listing-img"
-                        src="{% if listing.image %}{{ listing.image }}{% else %}https://caer.univ-amu.fr/wp-content/uploads/default-placeholder.png{% endif %}"
-                        alt="Photo of {{ listing.title }}">
+                    src="{% if listing.image %}{{ listing.image }}{% else %}https://caer.univ-amu.fr/wp-content/uploads/default-placeholder.png{% endif %}"
+                    alt="Photo of {{ listing.title }}">
                 </div>
                 <div class="col-12 col-md-6 text-start d-flex flex-column justify-content-between">
-
+                    
                     <!-- LISTING INFORMATIONS -->
                     <div>
-                        <h3 class="mb-0"><strong>{{ listing.title }} </strong><span
-                                class="text-muted fs-7">{{status}}</span></h3>
+                        <h3 class="mb-0"><strong>{{ listing.title }} </strong><span class="text-muted fs-7">{{status}}</span></h3>
                         <p class="text-muted fs-6">
                             created by {{ listing.author }}</p>
-                        <span class="badge rounded-pill category bg-multi mb-4"><small>{{ listing.category }}</small></span>
-                        <h5 class="fs-5"><strong>Description</strong></h5>
-                        <p>{{ listing.description }}</p>
-
+                            <span class="badge rounded-pill category bg-multi mb-4"><small>{{ listing.category }}</small></span>
+                            <h5 class="fs-5"><strong>Description</strong></h5>
+                            <p>{{ listing.description }}</p>
+                            
                     </div>
                     <div>
-                        <h5 class="fs-5"><strong>Price</strong></h5>
-                        <h5 class="fs-1"><strong>{{ listing.starting_bid|intcomma }}€</strong></strong></h5>
+                            <h5 class="fs-5"><strong>Price</strong></h5>
+                            <h5 class="fs-1"><strong>{{ listing.starting_bid|intcomma }}€</strong></strong></h5>
                     </div>
-                <div>
-                        <!-- BUTTONS -->
+                    <div>
+                    <!-- BUTTONS -->
                         {% if request.user == listing.author and listing.active %}
                             <a class="btn btn-danger mt-3" href="{% url 'close_listing' listing.id %}">Close</a>
                         {% elif not listing.active %}
@@ -43,16 +42,38 @@
                         {% else %}
                             <a href="" class="btn btn-success">Bid</a>
                             {% if listing.is_watched %}
-                                <a href ="{% url 'manage_watchlist' listing.id %}" class="btn bg-danger text-light">Unwatch <i class="fa-solid fa-eye-slash"></i></a>
+                            <a href ="{% url 'manage_watchlist' listing.id %}" class="btn bg-danger text-light">Unwatch <i class="fa-solid fa-eye-slash"></i></a>
                             {% else %}
-                                <a href ="{% url 'manage_watchlist' listing.id %}" class="btn bg-light-g text-dark b-1">Watch it <i class="fa-solid fa-eye"></i></a>
+                            <a href ="{% url 'manage_watchlist' listing.id %}" class="btn bg-light-g text-dark b-1">Watch it <i class="fa-solid fa-eye"></i></a>
                             {% endif %}
                         {% endif %}
                     </div>
                 </div>
             </div>
-
         </div>
-    </div>
+        <div class="row justify-content-center my-5">
+            <div class="col-12 col-md-10 box-shadow p-5 rounded-4">
+                <h3 class="text-center mb-3">✍🏽Write your comment</h2>
+                <form action ="{% url 'comment' listing.id %}" method="post" class="form-control text-center pt-3">
+                    {% csrf_token %}
+                    <textarea name="comment" placeholder="Write your comment here!" class="form-control" rows='3'></textarea>
+                    <input type="submit" class="btn btn-primary" type="button">
+                </form>
+            </div>
+        </div>
+        <div class="row justify-content-center my-5">
+            <div class="col-12 col-md-10 box-shadow p-5 rounded-4">
+                <h3 class="text-center mb-3">🗣️Comments</h2>
+                {% for comment in comments %}
+                <div class="card p-4">
+                    <strong>Written by <span class="text-success">{{comment.commenter}}</span></strong><hr>
+                    <p>{{comment.content}}</p>
+                </div>
+                {% empty %}
+                <p class="text-center">No comments yet : Comment 🎤 !</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div> 
 </div>
 {% endblock %}

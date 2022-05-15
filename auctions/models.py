@@ -48,5 +48,8 @@ class Bid(models.Model):
     
 class Comment(models.Model):
     content = models.CharField(max_length=512) 
-    commenter = models.ForeignKey(User, on_delete = models.CASCADE)
-    listing = models.ForeignKey(Listing, on_delete = models.CASCADE)
+    commenter = models.ForeignKey(User, on_delete = models.CASCADE, related_name="comments")
+    listing = models.ForeignKey(Listing, on_delete = models.CASCADE, related_name="comments")
+
+    def __str__(self):
+        return (f"Comment of {self.commenter} made for the item {self.listing}")

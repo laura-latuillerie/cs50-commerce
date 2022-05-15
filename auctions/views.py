@@ -92,7 +92,7 @@ def watchlist(request):
 def manage_watchlist(request, listing_id):
     listing_object = Listing.objects.get(id=listing_id)
     if request.user in listing_object.watcher.all():
-            listing_object.watcher.remove(request.user)
+        listing_object.watcher.remove(request.user)
     else:
         listing_object.watcher.add(request.user)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
@@ -103,6 +103,7 @@ def manage_watchlist(request, listing_id):
 @login_required(login_url='login')
 def listing_page(request, listing_id):
     listing = Listing.objects.get(id=listing_id)
+    comments = listing.comments.all()
     if request.user in listing.watcher.all():
         listing.is_watched = True
     else: 
@@ -117,7 +118,8 @@ def listing_page(request, listing_id):
         "categorys": Category.objects.all().order_by('name'),
         "listing" : listing,
         "status"  : status,
-        "watchlist": request.user.watchlist.all()
+        "watchlist": request.user.watchlist.all(),
+        "comments": comments
     })
 
 #
@@ -179,3 +181,14 @@ def categories(request, category_id):
         "listings": Listing.objects.filter(active=True, category=category_id),
         "watchlist": request.user.watchlist.all()
     })
+
+#
+##### COMMENTS ######
+#
+def comment(request, listing_id): 
+    user = request.user
+    listing = listing = Listing.objects.get(pk=listing_id)
+    text = request.POST["comment"]
+    new_comment = Comment(content=text, commenter=user, listing=listing)
+    new_comment.save()
+    return HttpResponseRedirect(reverse("listing_page", args=(listing_id, )))

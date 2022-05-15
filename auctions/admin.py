@@ -6,4 +6,5 @@ from .models import *
 admin.site.register(User)
 admin.site.register(Category)
 admin.site.register(Listing)
+admin.site.register(Comment)
 
