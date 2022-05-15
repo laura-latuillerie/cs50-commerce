@@ -227,7 +227,7 @@ def bid(request, listing_id):
     if request.method == "POST":
         listing = Listing.objects.get(pk=listing_id)
         new_bid = int(request.POST["bid"])
-        if new_bid > listing.current_price:
+        if new_bid > listing.current_price and new_bid > listing.starting_bid:
             Bid.objects.create(bid=new_bid, user=request.user, listing=listing)
             Listing.objects.filter(pk=listing_id).update(current_price=new_bid)
             messages.success(request, 'Bid successfully added.')
