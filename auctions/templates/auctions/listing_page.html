@@ -6,7 +6,6 @@ Cat Auctions - {{ listing }} product page
 {% endblock %}
 
 {% if message %}
-{% if updated %}
    <div class="alert alert-success" role="alert">
          {{ message }}
    </div> 
@@ -14,7 +13,6 @@ Cat Auctions - {{ listing }} product page
    <div class="alert alert-danger" role="alert">
        {{ message }}
  </div> 
-{% endif %}
 {% endif %}
 
 {% block body %}
@@ -61,7 +59,7 @@ Cat Auctions - {{ listing }} product page
                     
                     <!-- BIDDING FORM -->
 
-                        <form action ="{% url 'listing_page' listing.id %}" method="post" class="row row-cols-lg-auto g-3 align-items-center">
+                        <form action ="{% url 'bid' listing.id %}" method="post" class="row row-cols-lg-auto g-3 align-items-center">
                             {% csrf_token %}
                             <div class="col">
                                 <div class="input-group">

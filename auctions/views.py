@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
@@ -103,13 +104,12 @@ def manage_watchlist(request, listing_id):
 def listing_page(request, listing_id):
 
     listing = Listing.objects.get(id=listing_id)
-    # Setting up for bidding #
     bids = Bid.objects.filter(listing=listing)
     all_bids = []
     highest_bid = listing.starting_bid
-    highest_bidder = listing.author
+    highest_bidder = ''
     winner = ''
-
+    
     if bids:
         bids_list = list(bids)
         for index in bids_list:
@@ -136,26 +136,7 @@ def listing_page(request, listing_id):
         else:
             status = "🔴 Closed"
             winner = highest_bidder
-            context = {
-                "categorys": Category.objects.all().order_by('name'),
-                "listing" : listing,
-                "status"  : status,
-                "watchlist": request.user.watchlist.all(),
-                "comments": listing.comments.all(),
-                "highest_bid": highest_bid,
-                "highest_bidder": highest_bidder,
-                "bids" : bids,
-                "winner" : winner
-            }
-            return render(request, 'auctions/listing_page.html', context)
-    
 
-    else :
-        new_bid = int(request.POST["bid"])
-        if new_bid > highest_bid:
-            Bid.objects.create(bid=new_bid, user=request.user, listing=listing)
-            Listing.objects.filter(pk=listing_id).update(current_price=new_bid)
-        return HttpResponseRedirect(reverse("listing_page", args=(listing_id,)))
     context = {
         "categorys": Category.objects.all().order_by('name'),
         "listing" : listing,
@@ -240,3 +221,17 @@ def comment(request, listing_id):
     new_comment = Comment(content=text, commenter=user, listing=listing)
     new_comment.save()
     return HttpResponseRedirect(reverse("listing_page", args=(listing_id,)))
+
+
+def bid(request, listing_id):
+    if request.method == "POST":
+        listing = Listing.objects.get(pk=listing_id)
+        new_bid = int(request.POST["bid"])
+        if new_bid > listing.current_price:
+            Bid.objects.create(bid=new_bid, user=request.user, listing=listing)
+            Listing.objects.filter(pk=listing_id).update(current_price=new_bid)
+            messages.success(request, 'Bid successfully added.')
+            return HttpResponseRedirect(reverse("listing_page", args=(listing_id,)))
+        else: 
+            messages.error(request, 'Your bid needs to be higher than the current bid.')
+            return HttpResponseRedirect(reverse("listing_page", args=(listing_id,)))
