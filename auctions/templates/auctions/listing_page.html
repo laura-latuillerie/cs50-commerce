@@ -10,74 +10,76 @@ Cat Auctions - {{ listing }} product page
     <h2 class="text-center">➕ Listing Informations</h2>
     <hr />
     <div class="container mt-5">
-        <div class="row justify-content-center listing-box">
-            <div class="col-12 col-md-10 d-flex box-shadow p-5 rounded-4">
-                <div class="col-12 col-md-6">
-                    <img class="listing-img"
-                    src="{% if listing.image %}{{ listing.image }}{% else %}https://caer.univ-amu.fr/wp-content/uploads/default-placeholder.png{% endif %}"
-                    alt="Photo of {{ listing.title }}">
-                </div>
-                <div class="col-12 col-md-6 text-start d-flex flex-column justify-content-between">
-                    
-                    <!-- LISTING INFORMATIONS -->
-                    <div>
-                        <h3 class="mb-0"><strong>{{ listing.title }} </strong><span class="text-muted fs-7">{{status}}</span></h3>
-                        <p class="text-muted fs-6">
-                            created by {{ listing.author }}</p>
-                            <span class="badge rounded-pill category bg-multi mb-4"><small>{{ listing.category }}</small></span>
-                            <h5 class="fs-5"><strong>Description</strong></h5>
-                            <p>{{ listing.description }}</p>
+        <div class="row listing-box justify-content-center">
+            <div class="col col-md-10 d-flex justify-content-center box-shadow p-5 rounded-4">
+                <div class="row p-0 justify-content-evenly">
+                    <div class="col-sm-12 col-lg-6 responsive-box ps-0">
+                        <img class="responsive mb-2"
+                        src="{% if listing.image %}{{ listing.image }}{% else %}https://caer.univ-amu.fr/wp-content/uploads/default-placeholder.png{% endif %}"
+                        alt="Photo of {{ listing.title }}">
                     </div>
-                    <!-- PRICING -->
-                    <div>
-                        {% if winner and not listing.active %}
-                        <h5 class="text-success mb-0"><strong>Winner 🏆</strong> is {{ highest_bidder }} !</h5> 
-                        {% elif bids %}
-                        <h5 class="mb-0"><strong>Highest Bid</strong> 💪 of {{ bids|length }} bids.</h5>  Bid by {{ highest_bidder }}
-                        {% else %}
-                        <h5 class="mb-0"><strong>Starting Price 🌱</strong></h5>Priced by {{ listing.author }}
-                        {% endif %}
-                        <h4 class="fs-2">{{ highest_bid|intcomma }}€</h5>
-                    </div>
-                    <div>
-                    <!-- CLOSE BUTTON -->
-                        {% if request.user == listing.author %}
-                            {% if listing.active %}
-                            <a class="btn btn-danger mt-3" href="{% url 'close_listing' listing.id %}">Close</a>
-                            {% elif not listing.active and not winner %}
-                            <a class="btn btn-warning mt-3" href="{% url 'close_listing' listing.id %}">Re-Open</a>
+                    <div class="col-sm-12 col-lg-6 text-start d-flex flex-column pe-0">
+                        
+                        <!-- LISTING INFORMATIONS -->
+                        <div>
+                            <h3 class="mb-0"><strong>{{ listing.title }} </strong><span class="text-muted fs-7">{{status}}</span></h3>
+                            <p class="text-muted fs-6">
+                                created by {{ listing.author }}</p>
+                                <span class="badge rounded-pill category bg-multi mb-4"><small>{{ listing.category }}</small></span>
+                                <h5 class="fs-5"><strong>Description</strong></h5>
+                                <p>{{ listing.description }}</p>
+                        </div>
+                        <!-- PRICING -->
+                        <div>
+                            {% if winner and not listing.active %}
+                            <h5 class="text-success mb-0"><strong>Winner 🏆</strong> is {{ highest_bidder }} !</h5> 
+                            {% elif bids %}
+                            <h5 class="mb-0"><strong>Highest Bid</strong> 💪 of {{ bids|length }} bids.</h5>  Bid by {{ highest_bidder }}
                             {% else %}
-                             <p class="text-danger mt-3" href="">Listing Closed</p>
-                             {% endif %}
-                        {% else %}
-
-                    <!-- BIDDING FORM -->
-                            {% if listing.active %}
-                            <form action ="{% url 'bid' listing.id %}" method="post" class="row row-cols-lg-auto g-3 align-items-center">
-                            {% csrf_token %}
-                            <div class="col">
-                                <div class="input-group">
-                                <input name="bid" placeholder="Bid higher than price" class="form-control"></input>
-                                <div class="input-group-text">€</div>
+                            <h5 class="mb-0"><strong>Starting Price 🌱</strong></h5>Priced by {{ listing.author }}
+                            {% endif %}
+                            <h4 class="fs-2">{{ highest_bid|intcomma }}€</h5>
+                        </div>
+                         <!-- CLOSE BUTTON -->
+                        <div>
+                            {% if request.user == listing.author %}
+                                {% if listing.active %}
+                                <a class="btn btn-danger mt-3" href="{% url 'close_listing' listing.id %}">Close</a>
+                                {% elif not listing.active and not winner %}
+                                <a class="btn btn-warning mt-3" href="{% url 'close_listing' listing.id %}">Re-Open</a>
+                                {% else %}
+                                <p class="text-danger mt-3" href="">Listing Closed</p>
+                                {% endif %}
+                            {% else %}
+                        </div>
+                        <!-- BIDDING FORM -->
+                                {% if listing.active %}
+                                <form action ="{% url 'bid' listing.id %}" method="post" class="row align-items-center justify-content-start g-1">
+                                {% csrf_token %}
+                                <div class="col-4">
+                                    <div class="input-group">
+                                    <input name="bid" placeholder="{{ listing.starting_bid }}" class="form-control"></input>
+                                    <div class="input-group-text">€</div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col">
-                                <input type="submit" class="btn btn-success" type="button" value="Bid 💰">
-                            </div>
+                                <div class="col">
+                                    <input type="submit" class="btn btn-success" type="button" value="Bid 💰">
+                                </div>
 
-                     <!-- WATCHLIST -->
-                            <div class="col">
-                            {% if listing.is_watched %}
-                            <a href ="{% url 'manage_watchlist' listing.id %}" class="btn bg-danger text-light">Unwatch <i class="fa-solid fa-eye-slash"></i></a>
-                            {% else %}
-                            <a href ="{% url 'manage_watchlist' listing.id %}" class="btn bg-light-g text-dark">Watch it <i class="fa-solid fa-eye"></i></a>
+                        <!-- WATCHLIST -->
+                                <div class="col-auto">
+                                {% if listing.is_watched %}
+                                <a href ="{% url 'manage_watchlist' listing.id %}" class="btn bg-danger text-light">Unwatch <i class="fa-solid fa-eye-slash"></i></a>
+                                {% else %}
+                                <a href ="{% url 'manage_watchlist' listing.id %}" class="btn bg-light-g text-dark">Watch it <i class="fa-solid fa-eye"></i></a>
+                                {% endif %}
+                                </div>
+                                </form>
+                                {% else %}
+                                <p class="text-danger mt-3" href="">Listing Closed</p>
+                                {% endif %}
                             {% endif %}
-                            </div>
-                            </form>
-                            {% else %}
-                             <p class="text-danger mt-3" href="">Listing Closed</p>
-                            {% endif %}
-                        {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
